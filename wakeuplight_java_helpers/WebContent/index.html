@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- 
+ Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
+ This code is in the public domain, please see file UNLICENSE.txt.
+--> 
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content=width=device-width,initial-scale=1>
+<meta name=mobile-web-app-capable content=yes>
+<meta name=apple-mobile-web-app-capable content=yes>
+<title>Wake-up Light</title>
+<link id="iconLink" rel="shortcut icon" sizes=192x192 href=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAP3SURBVHhe7dpbbttWGEZRuwNoZtP5v7az6QicGLVQGpDBmOThba8FBPVTLYXZ+L/IeX375QWi/vj4LyQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKS9vv3y8TWj/fPj44sv/PXvxxfsxQUgTQCkmUCjzc2eZ0yh3bgApAmAtNYEOuJTmLNPoPgnUy4AaQIg7f4T6OgJcsYJtOQ1vbvhHHIBSBMAaQIgTQCkCYA0ATzz/inJ49ed3PE9rSQA0gRAmn8L9B1rfxC05Pvf8Ydyc69jxx+4uQCkCYA0E+g7rjiBrviepwbPIReANAGQdvwEOuITgaPO8l4T6OqzZ8oEgnEEQNoxE2jpiTzLHDKB/rfl3HnGBIJxBEDatSbQw5Zn8exzYc858rvf6+KzZ8oFIE0ApF1zAk0dPYeWfP+577P0PY14/TeaO8+4AKQJgLTz/1ug71h7TveaQKNs9fpvPnumXADSBEDa8RNoaqvTO3oKffX/HzEdlryXpa//Ycv3caK584wLQJoASDvXBHo46wkeMXHWGjEx1r7Pk8+eKReANAGQds4JNLXnHDrjxFlr7RyZ+z250Nx5xgUgTQCkrZ9Ae57IEZ9O3HH2fOXic2UEF4A0AZC2bAItnQ1bneDSbBnt6rNo5QR3AUgTAGn7TqCHLc+uObSds8yhUc/0yftzAUgTAGnHTKCpEWfXLFpn9BQ66vmYQPCZAEgb/2+B5mx5bk2f7S15Pmd9DiYQfCYA0gRA2vq/A0wd8fcBu38/c8/njM9i5jW7AKQJgLRtJ9DD6Clk9hzrq+dzxHNZMpsnXADSBEDaOSfQ1LMTZwIda88JtHLizHEBSBMAaWMm0NTaszg9gabP+aydqIMnzhwXgDQBkDZ+Ak2ZMPd28JxZwgUgTQCk7TuBHuamkE9+runoCfSdP1cfXADSBEDa5wk0Ym4sOYtmz7WNmkJb/bmYvD4XgDQBkPb69vef+30K9Lun0QS6tqUTaK/nbgLBfwRAmgA41vvsefw6gABIEwBp5/oUyKc/93OmZ/7ktbgApAmAsJeXn/heLceGqmGKAAAAAElFTkSuQmCC />
+<style>
+#main {	margin: auto; text-align: center; font-family: Tahoma, Geneva, sans-serif; }
+@media only screen and (min-width: 700px) {	#main {	width: 400px; } }
+.time { margin-bottom: 0px; }
+.date { font-size: 80%; margin-top: 0px; margin-bottom: 20px; }
+button { width: 20%; margin: 2%; padding-top: 12px;	padding-bottom: 12px; }
+</style>	
+</head>
+<body>
+	<div id=main>
+		<h3><img id="logoImage" height=40 width=40 src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAP3SURBVHhe7dpbbttWGEZRuwNoZtP5v7az6QicGLVQGpDBmOThba8FBPVTLYXZ+L/IeX375QWi/vj4LyQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKQJgDQBkCYA0gRAmgBIEwBpAiBNAKS9vv3y8TWj/fPj44sv/PXvxxfsxQUgTQCkmUCjzc2eZ0yh3bgApAmAtNYEOuJTmLNPoPgnUy4AaQIg7f4T6OgJcsYJtOQ1vbvhHHIBSBMAaQIgTQCkCYA0ATzz/inJ49ed3PE9rSQA0gRAmn8L9B1rfxC05Pvf8Ydyc69jxx+4uQCkCYA0E+g7rjiBrviepwbPIReANAGQdvwEOuITgaPO8l4T6OqzZ8oEgnEEQNoxE2jpiTzLHDKB/rfl3HnGBIJxBEDatSbQw5Zn8exzYc858rvf6+KzZ8oFIE0ApF1zAk0dPYeWfP+577P0PY14/TeaO8+4AKQJgLTz/1ug71h7TveaQKNs9fpvPnumXADSBEDa8RNoaqvTO3oKffX/HzEdlryXpa//Ycv3caK584wLQJoASDvXBHo46wkeMXHWGjEx1r7Pk8+eKReANAGQds4JNLXnHDrjxFlr7RyZ+z250Nx5xgUgTQCkrZ9Ae57IEZ9O3HH2fOXic2UEF4A0AZC2bAItnQ1bneDSbBnt6rNo5QR3AUgTAGn7TqCHLc+uObSds8yhUc/0yftzAUgTAGnHTKCpEWfXLFpn9BQ66vmYQPCZAEgb/2+B5mx5bk2f7S15Pmd9DiYQfCYA0gRA2vq/A0wd8fcBu38/c8/njM9i5jW7AKQJgLRtJ9DD6Clk9hzrq+dzxHNZMpsnXADSBEDaOSfQ1LMTZwIda88JtHLizHEBSBMAaWMm0NTaszg9gabP+aydqIMnzhwXgDQBkDZ+Ak2ZMPd28JxZwgUgTQCk7TuBHuamkE9+runoCfSdP1cfXADSBEDa5wk0Ym4sOYtmz7WNmkJb/bmYvD4XgDQBkPb69vef+30K9Lun0QS6tqUTaK/nbgLBfwRAmgA41vvsefw6gABIEwBp5/oUyKc/93OmZ/7ktbgApAmAsJeXn/heLceGqmGKAAAAAElFTkSuQmCC />Wake-up Light</h3>
+		<hr>
+		<h1 id="stage1header" class="stage1 time">Contacting...</h1>
+		<h1 id=time class="stage2 time" style="display: none;">&nbsp;</h1>
+		<h1 class="stage1 date">&nbsp;</h1>
+		<h1 id=date class="stage2 date" style="display: none;">&nbsp;</h1>
+		<hr>
+		<div id=lightbuttons>
+			<button disabled id=btn_light_full>Full</button>
+			<button disabled id=btn_light_more>More</button>
+			<button disabled id=btn_light_less>Less</button>
+			<button disabled id=btn_light_off>Off</button>
+		</div>
+		<hr>
+		<h3 class="stage1">&nbsp;</h3>
+		<h3 class="stage2" style="display: none;">Wake-up:
+			<span id=from>&nbsp;</span>
+			&ndash;
+			<span id=to>&nbsp;</span>,
+			<span id=state>&nbsp;</span>
+		</h3>
+		<div id=alarmtimebuttons>
+			<button disabled id=btn_alarm_hh_inc>Hour +1</button>
+			<button disabled id=btn_alarm_hh_dec>Hour -1</button>
+			<button disabled id=btn_alarm_mm_inc>Min +5</button>
+			<button disabled id=btn_alarm_mm_dec>Min -5</button>
+		</div>		
+		<div id=alarmstatebuttons>
+			<button disabled id=btn_alarm_faster>Faster</button>
+			<button disabled id=btn_alarm_slower>Slower</button>
+			<button disabled id=btn_alarm_toggle>Toggle</button>
+		</div>		
+	</div>
+	<script src=https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js></script>
+	<script>
+	$(function() {
+		var contactedBefore = false;
+		function processData(data) {
+			var lines = data.split("\r\n");
+			if(lines[4] == "INIT") {
+				$("#stage1header").html("Acquiring time...");
+			} else {
+				if(!contactedBefore) {
+					contactedBefore = true;
+					$("button").prop("disabled", false);
+					$(".stage1").hide();
+					$(".stage2").show();
+				}
+				$("#time").html(lines[0]);
+				$("#date").html(lines[1]);
+				$("#from").html(lines[2]);
+				$("#to").html(lines[3]);
+				if(lines[4] == "ENABLED") {
+					$("#state").html("Enabled");
+					$("#btn_alarm_toggle").html("Disable");
+				} else if(lines[4] == "DISABLED") {
+					$("#state").html("Disabled");
+					$("#btn_alarm_toggle").html("Enable");
+				} else if(lines[4] == "ACTIVE") {
+					$("#state").html("Active");
+					$("#btn_alarm_toggle").html("Deactivate");
+				}
+			}
+		} 
+		$.post( "L", "", processData );
+		setInterval(function() { $.post( "L", "", processData ); }, 5000);
+		$("button").click(function(event) { $.post( "L?btn=" + event.target.id, "", processData ); } );
+	});
+	</script>
+</body>
+</html>
