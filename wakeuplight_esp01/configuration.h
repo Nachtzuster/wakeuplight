@@ -13,12 +13,28 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 #include <ESP8266WiFi.h>
+#include <TimeLib.h>
+#include <ArduinoJson.h>
+
+#define MAX_ALARMS 8
+#define SIZE_ALARM 12
+#define NUM_DAYS 7
+#define RESPONSE_BUFFER_SIZE 1450
 
 enum Month { JANUARY=1, FEBRUARY=2, MARCH=3, APRIL=4, MAY=5, JUNE=6, JULY=7,
   AUGUST=8, SEPTEMBER=9, OCTOBER=10, NOVEMBER=11, DECEMBER=12 };
 enum Day { SUNDAY=0, MONDAY=1, TUESDAY=2, WEDNESDAY=3, THURSDAY=4, FRIDAY=5, SATURDAY=6 };
 enum Occurence { LAST=-1, FIRST=1, SECOND=2, THIRD=3, FOURTH=4 };
 struct TimeChange { Occurence occurence; Day day; Month month; byte hour; int change; };
+
+struct AlarmDef {  
+  byte hour;
+  byte minute;
+  boolean hidden;
+  boolean repeat;
+  boolean enable;
+  boolean days[NUM_DAYS];
+};
 
 class Configuration {
 private:  
@@ -44,16 +60,26 @@ private:
 
 public:
   void setup();
+  byte getAlarmDay();
   byte getAlarmHour();
   byte getAlarmMinute();
   byte getAlarmDuration();
   byte getAlarmToHour();
   byte getAlarmToMinute();
   boolean isAlarmEnabled();
-  void adjustAlarmHour(boolean increase);
-  void adjustAlarmMinute(boolean increase);
+  boolean setNextAlarm(time_t localTime);
+  void alarmIsTriggered(time_t localTime);
+  void adjustAlarmHour(int alarmId, int hour);
+  void adjustAlarmMinute(int alarmId, int minute);
   void adjustAlarmDuration(boolean increase);
-  void setAlarmEnabled(boolean enable);
+  void setAlarmHidden(int alarmId, boolean hide);
+  void setAlarmEnabled(int alarmId, boolean enable);
+  void setAlarmRepeat(int alarmId, boolean repeat);
+  void setAlarmEnableDay(int alarmId, int day_number, boolean enable);
+  void expandAlarmList();
+  void reduceAlarmList(int alarmId);
+  void serializeAlarmList(JsonObject& status);
+  
   const char* getWifiSSID();
   const char* getWifiPassword();
   boolean isDynamicIP();
@@ -65,19 +91,34 @@ public:
   TimeChange* getTimeChanges();
 
 private:
+  AlarmDef alarmList[MAX_ALARMS];
   void calculateAlarmTo();
+  int calculateMinuteToNext(time_t localTime, int nextDay, int nextHour, int nextMinute);
+  void initAlarmDef(int alarmId);
+  boolean readBoolean(int address, boolean& corrupt);
   boolean alarmEnabled;
+  byte nextAlarmId;
+  byte alarmDay;
   byte alarmHour;
   byte alarmMinute;
   byte alarmDuration;
   byte alarmToHour;
   byte alarmToMinute;
-  
-  static const int addrAlarmEnable = 0;
-  static const int addrAlarmHour = 1;
-  static const int addrAlarmMinute = 2;
-  static const int addrAlarmDuration = 3;
-  static const int eepromSize = 4;
+
+  static const int addrHour = 0;
+  static const int addrMinute = 1;
+  static const int addrHidden = 2;
+  static const int addrRepeat = 3;
+  static const int addrEnable = 4;
+  static const int addrEnableMon = 5;
+  static const int addrEnableTue = 6;
+  static const int addrEnableWed = 7;
+  static const int addrEnableThu = 8;
+  static const int addrEnableFri = 9;
+  static const int addrEnableSat = 10;
+  static const int addrEnableSun = 11;
+  static const int addrDuration = SIZE_ALARM * MAX_ALARMS;
+  static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 1;
 };
 
 #endif
