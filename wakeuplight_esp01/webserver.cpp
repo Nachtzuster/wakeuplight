@@ -26,49 +26,92 @@ void Webserver::handleRoot() {
 }
 
 void Webserver::handleCommand() {
-  String btn = server.arg("btn");
-  if(btn != NULL && btn != "") {
-    alarm.deactivate();
-    if(btn == "btn_light_full") dimmer.full();
-    else if(btn == "btn_light_more") dimmer.increase();
-    else if(btn == "btn_light_less") dimmer.decrease();
-    else if(btn == "btn_light_off") dimmer.off();
-    else if(btn == "btn_alarm_hh_inc") configuration.adjustAlarmHour(true);
-    else if(btn == "btn_alarm_hh_dec") configuration.adjustAlarmHour(false);
-    else if(btn == "btn_alarm_mm_inc") configuration.adjustAlarmMinute(true);
-    else if(btn == "btn_alarm_mm_dec") configuration.adjustAlarmMinute(false);
-    else if(btn == "btn_alarm_slower") configuration.adjustAlarmDuration(true);
-    else if(btn == "btn_alarm_faster") configuration.adjustAlarmDuration(false);
-    else if(btn == "btn_alarm_toggle") {
-      if(alarm.isActive()) {
-        alarm.deactivate();
-      } else {
-        alarm.resetLastTriggered();
-        configuration.setAlarmEnabled(!configuration.isAlarmEnabled());
+  String return_alarms = server.arg("alarms");
+  String inp = server.arg("inp");
+  String value = server.arg("val");
+  if(inp != NULL && inp != "" && value != NULL && value != "") {
+    int alarmId;
+    String control;
+    int dash_index = inp.indexOf("-");
+    if (dash_index > 1 && dash_index < ((int)inp.length() - 1)) {
+      control = inp.substring(0, dash_index);
+      alarmId = inp.substring(dash_index + 1).toInt();
+      if (alarmId >= MAX_ALARMS || alarmId < 0) alarmId = 0;
+    } else {
+      control = inp;
+      alarmId = 0;
+    }
+
+    if (control == "usr_time"){
+      int colon_index = value.indexOf(":");
+      if (colon_index > 0 && colon_index < (int)value.length()){
+        int hour = value.substring(0, colon_index).toInt();
+        int minute = value.substring(colon_index + 1).toInt();
+        configuration.adjustAlarmHour(alarmId, hour);
+        configuration.adjustAlarmMinute(alarmId, minute);
       }
+    }
+    else if (control == "repeat") configuration.setAlarmRepeat(alarmId, value == "true");
+    else if (control == "enable") configuration.setAlarmEnabled(alarmId, value == "true");
+    else if (control == "mon") configuration.setAlarmEnableDay(alarmId, 1, value == "true");
+    else if (control == "tue") configuration.setAlarmEnableDay(alarmId, 2, value == "true");
+    else if (control == "wed") configuration.setAlarmEnableDay(alarmId, 3, value == "true");
+    else if (control == "thu") configuration.setAlarmEnableDay(alarmId, 4, value == "true");
+    else if (control == "fri") configuration.setAlarmEnableDay(alarmId, 5, value == "true");
+    else if (control == "sat") configuration.setAlarmEnableDay(alarmId, 6, value == "true");
+    else if (control == "sun") configuration.setAlarmEnableDay(alarmId, 0, value == "true");
+    else if(control == "btn_delete"){
+      configuration.reduceAlarmList(alarmId);
+      return_alarms = "1";
+    }
+    else if(control == "btn_alarm_add"){
+      configuration.expandAlarmList();
+      return_alarms = "1";
+    }
+    else if(control == "btn_alarm_slower") configuration.adjustAlarmDuration(true);
+    else if(control == "btn_alarm_faster") configuration.adjustAlarmDuration(false);
+    else if(control == "btn_alarm_dismis") alarm.deactivate();
+
+    time_t localTime = localclock.getLocalTime();
+    if (localclock.isTimeSet()) {
+      configuration.setNextAlarm(localTime);
     }
   }
 
-  const char* mode;
+  StaticJsonBuffer<JSON_OBJECT_SIZE(11+2) + (JSON_ARRAY_SIZE(MAX_ALARMS) + JSON_OBJECT_SIZE(1) + MAX_ALARMS*JSON_OBJECT_SIZE(SIZE_ALARM))> jsonBuffer;
+  JsonObject& status = jsonBuffer.createObject();
+  serializeStatus(status);
+  if(return_alarms != NULL && return_alarms != "") configuration.serializeAlarmList(status);
+  status.printTo(responseBuffer, RESPONSE_BUFFER_SIZE);
+  server.send(200, "application/json", responseBuffer);
+}
+
+void Webserver::serializeStatus(JsonObject& status) {
+  time_t localTime = localclock.getLocalTime();
+  String mode;
+  
   if(!localclock.isTimeSet()) mode = modeInit;
   else if(alarm.isActive()) mode = modeActive;
   else if(configuration.isAlarmEnabled()) mode = modeEnabled;
   else mode = modeDisabled;
-  
-  time_t localTime = localclock.getLocalTime();
-  
-  snprintf(responseBuffer, 100, 
-    "%d:%02d\r\n%d %s %d\r\n%d:%02d\r\n%d:%02d\r\n%s",
-    hour(localTime),
-    minute(localTime),
-    day(localTime),
-    monthStr(month(localTime)),
-    year(localTime),
-    configuration.getAlarmHour(),
-    configuration.getAlarmMinute(),
-    configuration.getAlarmToHour(),
-    configuration.getAlarmToMinute(),
-    mode);
-  server.send(200, "text/plain", responseBuffer);
-}
 
+  status["status"] = mode;
+  status["hour"] = hour(localTime);
+  status["minute"] = minute(localTime);
+  status["day"] = day(localTime);
+  status["month"] = String(monthStr(month(localTime)));
+  status["year"] = year(localTime);
+  if (mode == modeDisabled) {
+    status["next_day"] = "Disabled";
+    status["next_hour"] = 0;
+    status["next_minute"] = 0;
+    status["to_hour"] = 0;
+    status["to_minute"] = 0;
+  } else {
+    status["next_day"] = String(dayStr(configuration.getAlarmDay()));
+    status["next_hour"] = configuration.getAlarmHour();
+    status["next_minute"] = configuration.getAlarmMinute();
+    status["to_hour"] = configuration.getAlarmToHour();
+    status["to_minute"] = configuration.getAlarmToMinute();
+  }
+}

@@ -15,6 +15,7 @@
 #include "alarm.h"
 /* If this include is placed before the other #includes, compile-time errors occur. */
 #include <ESP8266WebServer.h>
+#include <ArduinoJson.h>
 
 class Webserver {
 
@@ -30,13 +31,14 @@ private:
   Alarm& alarm;
   ESP8266WebServer server;
   void handleRoot();
-  void handleCommand();
+  void handleCommand();  
+  void serializeStatus(JsonObject& status);
 
   const char* modeInit = "INIT";
   const char* modeActive = "ACTIVE";
   const char* modeEnabled = "ENABLED";
   const char* modeDisabled = "DISABLED";
-  char responseBuffer[100];  
+  char responseBuffer[RESPONSE_BUFFER_SIZE];   
 };
 
 #endif
