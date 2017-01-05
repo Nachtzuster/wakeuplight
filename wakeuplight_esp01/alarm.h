@@ -30,6 +30,7 @@ private:
   unsigned long lastCheckMillis;
   time_t lastTriggered = 0UL;
   boolean active = false;
+  boolean timeIsSynced = false;
   time_t durationSecs;
 };
 
