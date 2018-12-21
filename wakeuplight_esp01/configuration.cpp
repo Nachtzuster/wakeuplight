@@ -113,26 +113,26 @@ int Configuration::calculateMinuteToNext(time_t localTime, int nextDay, int next
 boolean Configuration::setNextAlarm(time_t localTime) {
   boolean ret = false;
   // first day is 1, so substract 1 to start count at 0
-  byte dayofweek = dayOfWeek(localTime) - 1;
+  int dayofweek = dayOfWeek(localTime) - 1;
   int nextId = -1;  
   int nextDay = -1;
-  int minuteToGo = NUM_DAYS * 24 * 60;
+  int minuteToGo = (NUM_DAYS * 24 * 60) + 1;
   
   for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++) {
-    int maxDay;
+    //int maxDay;
     if (!alarmList[alarmId].hidden && alarmList[alarmId].enable){
       int minMinutes;
       int dayCount = 0;
       int dayIndex;
       minMinutes = -1;
-      maxDay = NUM_DAYS + 1;
+      //maxDay = NUM_DAYS + 1;
       do {
         dayIndex = (dayofweek + dayCount)%NUM_DAYS;
         if (alarmList[alarmId].days[dayIndex] || !alarmList[alarmId].repeat) {
           minMinutes = calculateMinuteToNext(localTime, (dayofweek + dayCount), alarmList[alarmId].hour, alarmList[alarmId].minute);
         }
         dayCount++;
-      } while (minMinutes < 0 && dayCount < maxDay);
+      } while (minMinutes <= 0 && dayCount <= NUM_DAYS);
       if (minMinutes > 0 && minMinutes < minuteToGo) {
         minuteToGo = minMinutes;
         nextDay = dayIndex;
@@ -141,10 +141,11 @@ boolean Configuration::setNextAlarm(time_t localTime) {
     }
   }
   // first day is 1;
-  nextDay++;
-  
-  if (minuteToGo > 0 && minuteToGo < NUM_DAYS * 24 * 60) {
-    alarmDay = nextDay;
+  //nextDay++;
+
+  if (minuteToGo > 0 && minuteToGo <= NUM_DAYS * 24 * 60) {
+    // first day is 1, so add 1;
+    alarmDay = nextDay + 1;
     alarmHour = alarmList[nextId].hour;
     alarmMinute = alarmList[nextId].minute;
     nextAlarmId = nextId;
