@@ -155,7 +155,7 @@ ul {list-style-type:none ; padding:0px}
 			var enable = "";
 			str +=
 			'<li class=' + alarm.id + '>' +
-				'<input type="time" id="usr_time-' + alarm.id + '" name="usr_time" step="300" class="detail" value="' + pad(alarm.hour) + ":" + pad(alarm.minute) + '" >' +
+				'<input type="time" id="usr_time-' + alarm.id + '" name="usr_time" step="60" class="detail" value="' + pad(alarm.hour) + ":" + pad(alarm.minute) + '" >' +
 				'<label><input type="checkbox" id="repeat-' + alarm.id + '" name="repeat" class="detail" ' + (alarm.repeat ? 'checked' : '') + '>Repeat</label>' +
 				'<label><input type="checkbox" id="enable-' + alarm.id + '" name="enable" ' + (alarm.enable ? 'checked' : '') + '>Enable</label>' +
 				'<button class="alarm" id="btn_delete-' + alarm.id + '">Delete</button>' +

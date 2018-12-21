@@ -158,7 +158,7 @@ const char* webserverHomepage =
 "			var enable = \"\";\r\n"
 "			str +=\r\n"
 "			'<li class=' + alarm.id + '>' +\r\n"
-"				'<input type=\"time\" id=\"usr_time-' + alarm.id + '\" name=\"usr_time\" step=\"300\" class=\"detail\" value=\"' + pad(alarm.hour) + \":\" + pad(alarm.minute) + '\" >' +\r\n"
+"				'<input type=\"time\" id=\"usr_time-' + alarm.id + '\" name=\"usr_time\" step=\"60\" class=\"detail\" value=\"' + pad(alarm.hour) + \":\" + pad(alarm.minute) + '\" >' +\r\n"
 "				'<label><input type=\"checkbox\" id=\"repeat-' + alarm.id + '\" name=\"repeat\" class=\"detail\" ' + (alarm.repeat ? 'checked' : '') + '>Repeat</label>' +\r\n"
 "				'<label><input type=\"checkbox\" id=\"enable-' + alarm.id + '\" name=\"enable\" ' + (alarm.enable ? 'checked' : '') + '>Enable</label>' +\r\n"
 "				'<button class=\"alarm\" id=\"btn_delete-' + alarm.id + '\">Delete</button>' +\r\n"
