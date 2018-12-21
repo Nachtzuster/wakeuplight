@@ -3,8 +3,8 @@
 
 #include "alarm.h"
 
-Alarm::Alarm(Configuration& configuration, Dimmer& dimmer, LocalClock& localclock) : 
-  configuration(configuration), dimmer(dimmer), localclock(localclock) {
+Alarm::Alarm(Configuration& configuration, Pixel& light, LocalClock& localclock) : 
+  configuration(configuration), light(light), localclock(localclock) {
 }
 
 void Alarm::loop() {
@@ -16,9 +16,9 @@ void Alarm::loop() {
         time_t elapsedSecs = now() - lastTriggered;
         if(elapsedSecs > durationSecs) {
           active = false;
-          dimmer.full();
+          light.increaseTo(1.0f);
         } else {
-          dimmer.increaseTo(elapsedSecs*dimmer.steps()/durationSecs);
+          light.increaseTo((float)elapsedSecs/(float)durationSecs);
         }    
       } else {
         /* The alarm is currently not active. Check if it's time to become active. */
