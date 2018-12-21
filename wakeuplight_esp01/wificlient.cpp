@@ -12,9 +12,9 @@ void WifiClient::setup() {
   Serial.println(configuration.getWifiSSID());
   WiFi.begin(configuration.getWifiSSID(), configuration.getWifiPassword());
   if(!configuration.isDynamicIP()) {
-    IPAddress ip, gateway, subnet;
-    configuration.getIPConfiguration(ip, gateway, subnet);
-    WiFi.config(ip, gateway, subnet);
+    IPAddress ip, gateway, subnet, dns1, dns2;
+    configuration.getIPConfiguration(ip, gateway, subnet, dns1, dns2);
+    WiFi.config(ip, gateway, subnet, dns1, dns2);
   }
   connected = false;
   lastPolledMillis = millis() - 1000;
@@ -41,4 +41,3 @@ void WifiClient::loop() {
 boolean WifiClient::isConnected() {
   return connected;
 }
-
