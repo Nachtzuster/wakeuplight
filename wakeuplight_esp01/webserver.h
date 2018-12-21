@@ -20,13 +20,12 @@
 class Webserver {
 
 public:
-  Webserver(Configuration& configuration, Dimmer& dimmer, LocalClock& localclock, Alarm& alarm);
+  Webserver(Configuration& configuration, LocalClock& localclock, Alarm& alarm);
   void setup();
   void loop();
 
 private:
   Configuration& configuration;
-  Dimmer& dimmer;
   LocalClock& localclock;
   Alarm& alarm;
   ESP8266WebServer server;

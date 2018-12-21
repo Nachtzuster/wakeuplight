@@ -6,8 +6,8 @@
 /* This file contains the HTML code of the homepage. It is generated from a Java project. */
 #include "webserver_homepage.h"
 
-Webserver::Webserver(Configuration& configuration, Dimmer& dimmer, LocalClock& localclock, Alarm& alarm) : 
-  configuration(configuration), dimmer(dimmer), localclock(localclock), alarm(alarm), server(80) {
+Webserver::Webserver(Configuration& configuration, LocalClock& localclock, Alarm& alarm) : 
+  configuration(configuration), localclock(localclock), alarm(alarm), server(80) {
 }
 
 void Webserver::setup() {
