@@ -108,7 +108,14 @@ void Webserver::serializeStatus(JsonObject& status) {
     status["to_hour"] = 0;
     status["to_minute"] = 0;
   } else {
-    status["next_day"] = String(dayStr(configuration.getAlarmDay()));
+    int daysToGo = configuration.getAlarmDay() - dayOfWeek(localTime);
+    if (daysToGo == 0 && (hour(localTime) * 60 + minute(localTime) < configuration.getAlarmHour() * 60 + configuration.getAlarmMinute())) {
+      status["next_day"] = String("Today");
+    }
+    else if (daysToGo == 1 || daysToGo == -6) {
+      status["next_day"] = String("Tomorrow");
+    }
+    else status["next_day"] = String(dayStr(configuration.getAlarmDay()));
     status["next_hour"] = configuration.getAlarmHour();
     status["next_minute"] = configuration.getAlarmMinute();
     status["to_hour"] = configuration.getAlarmToHour();
