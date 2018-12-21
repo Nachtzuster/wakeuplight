@@ -51,6 +51,18 @@ boolean Configuration::readBoolean(int address, boolean& corrupt) {
   return ret;
 }
 
+void Configuration::loop() {
+  flushEeprom();
+}
+
+void Configuration::flushEeprom(){
+  if (eepromDirty) {
+    if(!EEPROM.commit()) Serial.println("# Configuration::flushEeprom: EEPROM.commit failed");
+    else eepromDirty = false;
+    yield();
+  }
+}
+
 byte Configuration::getAlarmDay() {
   return alarmDay;
 }
@@ -147,49 +159,49 @@ boolean Configuration::setNextAlarm(time_t localTime) {
 void Configuration::adjustAlarmHour(int alarmId, int hour) {
   alarmList[alarmId].hour = hour % 24;
   EEPROM.write(addrHour + SIZE_ALARM * alarmId, alarmList[alarmId].hour);
-  EEPROM.commit();
+  eepromDirty = true;
 }
 
 void Configuration::adjustAlarmMinute(int alarmId, int minute) {
   alarmList[alarmId].minute = minute % 60;
   EEPROM.write(addrMinute + SIZE_ALARM * alarmId, alarmList[alarmId].minute);
-  EEPROM.commit();
+  eepromDirty = true;
 }
 
 void Configuration::adjustAlarmDuration(boolean increase) {
   if(increase && alarmDuration < 175) {
     alarmDuration += 5;
     EEPROM.write(addrDuration, alarmDuration);
-    EEPROM.commit();
+    eepromDirty = true;
   } else if(!increase && alarmDuration > 0) {
     alarmDuration -= 5;
     EEPROM.write(addrDuration, alarmDuration);
-    EEPROM.commit();
+    eepromDirty = true;
   }
 }
 
 void Configuration::setAlarmHidden(int alarmId, boolean hide) {
   alarmList[alarmId].hidden = hide;
   EEPROM.write(addrHidden + SIZE_ALARM * alarmId, (byte)hide);
-  EEPROM.commit();    
+  eepromDirty = true;
 }
 
 void Configuration::setAlarmEnabled(int alarmId, boolean enable) {
   alarmList[alarmId].enable = enable;
   EEPROM.write(addrEnable + SIZE_ALARM * alarmId, (byte)enable);
-  EEPROM.commit();    
+  eepromDirty = true;
 }
 
 void Configuration::setAlarmRepeat(int alarmId, boolean repeat) {
   alarmList[alarmId].repeat = repeat;
   EEPROM.write(addrRepeat + SIZE_ALARM * alarmId, (byte)repeat);
-  EEPROM.commit();    
+  eepromDirty = true;
 }
 
 void Configuration::setAlarmEnableDay(int alarmId, int day_number, boolean enable) {
   alarmList[alarmId].days[day_number] = enable;
   EEPROM.write(addrEnableMon + day_number + SIZE_ALARM * alarmId, (byte)enable);
-  EEPROM.commit();  
+  eepromDirty = true;
 }
 
 void Configuration::expandAlarmList(){
@@ -201,14 +213,14 @@ void Configuration::expandAlarmList(){
     initAlarmDef(alarmId);
     alarmList[alarmId].hidden = false;
     EEPROM.write(addrHidden + SIZE_ALARM * alarmId, (byte)false);
-    EEPROM.commit();  
+    eepromDirty = true;
   }  
 }
 
 void Configuration::reduceAlarmList(int alarmId){
   alarmList[alarmId].hidden = true;
   EEPROM.write(addrHidden + SIZE_ALARM * alarmId, (byte)true);
-  EEPROM.commit();  
+  eepromDirty = true;
 }
 
 void Configuration::serializeAlarmList(JsonObject& status){

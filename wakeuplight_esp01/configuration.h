@@ -81,6 +81,8 @@ public:
   void expandAlarmList();
   void reduceAlarmList(int alarmId);
   void serializeAlarmList(JsonObject& status);
+  void flushEeprom();
+  void loop();
   
   const char* getWifiSSID();
   const char* getWifiPassword();
@@ -121,6 +123,8 @@ private:
   static const int addrEnableSun = 11;
   static const int addrDuration = SIZE_ALARM * MAX_ALARMS;
   static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 1;
+
+  boolean eepromDirty = false;
 };
 
 #endif
