@@ -18,41 +18,50 @@
  */
 
 #include "configuration.h"
-#include "dimmer.h"
 #include "wificlient.h"
 #include "ntpclient.h"
 #include "localclock.h"
 #include "alarm.h"
 #include "serialhost.h"
 #include "webserver.h"
+#include "clock_display.h"
+#include "neo_pix.h"
 
 Configuration configuration;
-Dimmer dimmer;
+Pixel pixel;
 WifiClient wificlient(configuration);
 NTPClient ntpclient(configuration, wificlient);
 LocalClock localclock(configuration, ntpclient);
-Alarm alarm(configuration, dimmer, localclock);
-Serialhost serialhost(configuration, dimmer, alarm);
-Webserver webserver(configuration, dimmer, localclock, alarm);
+Alarm alarm(configuration, pixel, localclock);
+Serialhost serialhost(configuration, alarm);
+Webserver webserver(configuration, localclock, alarm);
+Clockdisplay clockdisplay(localclock);
+
+long int lastmillis=0;
+int maxlooptime=0;
+
 
 void setup() {
   Serial.begin(115200);
   configuration.setup();
-  dimmer.setup();
   wificlient.setup();
   ntpclient.setup();
   serialhost.setup();
   webserver.setup();
+  //yield();
+  pixel.setup();
 }
 
 /* Loop time while idle is 55 microseconds (18 kHz). Handling a web request is pretty slow,
  * takes about .5 seconds. */
+
 void loop() {
-  dimmer.loop();
   wificlient.loop();
   ntpclient.loop();
   alarm.loop();
   serialhost.loop();
   webserver.loop();
+  clockdisplay.loop();
+  pixel.loop();
+  configuration.loop();
 }
-
