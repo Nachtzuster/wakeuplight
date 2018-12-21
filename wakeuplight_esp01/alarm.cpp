@@ -50,10 +50,10 @@ boolean Alarm::isActive() {
 }
 
 void Alarm::deactivate() {
+  light.increaseTo(0.0f);
   active = false;
 }
 
 void Alarm::resetLastTriggered() {
   lastTriggered = 0UL;
 }
-
