@@ -17,13 +17,12 @@
 class Serialhost {
 
 public:
-  Serialhost(Configuration& configuration, Dimmer& dimmer, Alarm& alarm);
+  Serialhost(Configuration& configuration, Alarm& alarm);
   void setup();
   void loop();
 
 private:
   Configuration& configuration;
-  Dimmer& dimmer;
   Alarm& alarm;
   String commandString = "";        
   boolean commandComplete = false;

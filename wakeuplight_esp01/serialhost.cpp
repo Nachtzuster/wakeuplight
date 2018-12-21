@@ -7,8 +7,8 @@
 
 #include "serialhost.h"
 
-Serialhost::Serialhost(Configuration& configuration, Dimmer& dimmer, Alarm& alarm) : 
-  configuration(configuration), dimmer(dimmer), alarm(alarm) {
+Serialhost::Serialhost(Configuration& configuration, Alarm& alarm) : 
+  configuration(configuration), alarm(alarm) {
 }
 
 void Serialhost::setup() {
@@ -33,24 +33,7 @@ void Serialhost::loop() {
 void Serialhost::handleSerialCommand() {
   alarm.deactivate();
   commandString.trim();
-  if(commandString.startsWith("DEBUG:FREQ=")) {
-    int freq = commandString.substring(5).toInt();
-    dimmer.debugSetFrequency(freq);
-    Serial.println("# Serialhost::handleSerialCommand: Changed PWM frequency to ");
-    Serial.println(freq);
-  } else if(commandString.startsWith("DEBUG:RANGE=")) {
-    int range = commandString.substring(6).toInt();
-    dimmer.debugSetRange(range);
-    Serial.println("# Serialhost::handleSerialCommand: Changed PWM range to ");
-    Serial.println(range);
-  } else if(commandString.startsWith("DEBUG:VALUE=")) {
-    int value = commandString.substring(6).toInt();
-    dimmer.debugSetValue(value);
-    Serial.println("# Serialhost::handleSerialCommand: Changed PWM value to ");
-    Serial.println(value);
-  } else {
-    Serial.println("# Unknown command");
-  }
+  Serial.println("# Unknown command");
 }
 
 
