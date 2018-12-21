@@ -85,7 +85,7 @@ public:
   const char* getWifiSSID();
   const char* getWifiPassword();
   boolean isDynamicIP();
-  void getIPConfiguration(IPAddress& ip, IPAddress& gateway, IPAddress& subnet);
+  void getIPConfiguration(IPAddress& ip, IPAddress& gateway, IPAddress& subnet, IPAddress& dns1, IPAddress& dns2);
   unsigned int getNtpLocalPort();
   const char* getNtpServerName();
   int getStandardTimeOffset();
