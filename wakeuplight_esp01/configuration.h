@@ -45,6 +45,8 @@ private:
   byte ip[4] = {192,168,178,200};
   byte gateway[4] = {192,168,178,1};
   byte subnet[4] = {255,255,255,0};
+  byte dns1[4] = {8,8,8,8};
+  byte dns2[4] = {1,1,1,1};
   const char* ntpserver = "0.nl.pool.ntp.org";
   unsigned int ntpLocalPort = 2309U;
 
