@@ -26,6 +26,7 @@
 #include "webserver.h"
 #include "clock_display.h"
 #include "neo_pix.h"
+#include "button.h"
 
 Configuration configuration;
 Pixel pixel;
@@ -36,6 +37,7 @@ Alarm alarm(configuration, pixel, localclock);
 Serialhost serialhost(configuration, alarm);
 Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
+Button button(configuration, pixel, alarm);
 
 long int lastmillis=0;
 int maxlooptime=0;
@@ -50,6 +52,7 @@ void setup() {
   webserver.setup();
   //yield();
   pixel.setup();
+  button.setup();
 }
 
 /* Loop time while idle is 55 microseconds (18 kHz). Handling a web request is pretty slow,
@@ -63,5 +66,6 @@ void loop() {
   webserver.loop();
   clockdisplay.loop();
   pixel.loop();
+  button.loop();
   configuration.loop();
 }
