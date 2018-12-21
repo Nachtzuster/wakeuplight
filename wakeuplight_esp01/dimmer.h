@@ -34,7 +34,7 @@ public:
   void decrease();
   void increase();
   void full();
-  void increaseTo(int step);
+  void increaseTo(float scale);
   int steps();
   void debugSetValue(int value);
   void debugSetFrequency(int frequency);

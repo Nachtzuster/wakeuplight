@@ -60,7 +60,8 @@ void Dimmer::full() {
   requiredValue = dimmerValues[requiredStep];
 }
 
-void Dimmer::increaseTo(int step) {
+void Dimmer::increaseTo(float scale) {
+  int step = scale * dimmerSteps;
   if(step > requiredStep) {
     requiredStep = step;
     requiredValue = dimmerValues[requiredStep];
