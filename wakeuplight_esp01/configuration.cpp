@@ -247,8 +247,8 @@ void Configuration::serializeAlarmList(JsonObject& status){
 }
 
 void Configuration::calculateAlarmTo() {
-  alarmToMinute = alarmMinute + alarmDuration;
-  alarmToHour = (alarmHour + (alarmToMinute / 60)) % 24;
+  alarmToMinute = alarmDuration;
+  alarmToHour = (alarmToMinute / 60) % 24;
   alarmToMinute = alarmToMinute % 60;  
 }
 

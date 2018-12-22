@@ -24,12 +24,13 @@ void Alarm::loop() {
         /* The alarm is currently not active. Check if it's time to become active. */
         if((now() - lastTriggered) > 60UL) {
           if(configuration.isAlarmEnabled()) {
-            time_t localTime = localclock.getLocalTime();
+            durationSecs = configuration.getAlarmDuration()*60UL;
+            /* Need to start light ramp up durationSecs before alarm time */
+            time_t localTime = localclock.getLocalTime() + durationSecs;
             if(dayOfWeek(localTime) == configuration.getAlarmDay() && 
                hour(localTime) == configuration.getAlarmHour() && 
                minute(localTime) == configuration.getAlarmMinute()) {
               active = true;
-              durationSecs = configuration.getAlarmDuration()*60UL;
               lastTriggered = now();
               configuration.alarmIsTriggered(localTime);
             }
