@@ -24,8 +24,6 @@ void Button::loop() {
           alarm.deactivate();
         }
         else {
-          Serial.print("lightState :");
-          Serial.println(lightState);
           switch(lightState) {
             case 0: 
               light.increaseTo(0.55f);
