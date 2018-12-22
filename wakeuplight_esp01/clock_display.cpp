@@ -21,5 +21,7 @@ void Clockdisplay::loop() {
 void Clockdisplay::setBrightness() {
   unsigned int light = 1024 - analogRead(A0);
   yield();
-  displ.setBrightness(round(sqrt(light)/4.0));
+  /* max brightness is 7, so make sure not to go over */
+  unsigned int brightness = round(sqrt(light)/4.57);
+  displ.setBrightness(brightness);
 }
