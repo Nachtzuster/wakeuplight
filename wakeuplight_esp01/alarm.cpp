@@ -14,19 +14,21 @@ void Alarm::loop() {
       if(active) {
         /* The alarm is currently active. We'll increase the dimmer step to the appropriate level. */
         time_t elapsedSecs = now() - lastTriggered;
-        if(elapsedSecs > durationSecs) {
+        if(elapsedSecs > postSecs) {
           active = false;
-          light.increaseTo(1.0f);
-        } else {
-          light.increaseTo((float)elapsedSecs/(float)durationSecs);
-        }    
+          light.increaseTo(0.0f);
+        }
+        if(elapsedSecs <= rampUpSecs) {
+          light.increaseTo((float)elapsedSecs/(float)rampUpSecs);
+        }
       } else {
         /* The alarm is currently not active. Check if it's time to become active. */
         if((now() - lastTriggered) > 60UL) {
           if(configuration.isAlarmEnabled()) {
-            durationSecs = configuration.getAlarmDuration()*60UL;
-            /* Need to start light ramp up durationSecs before alarm time */
-            time_t localTime = localclock.getLocalTime() + durationSecs;
+            rampUpSecs = configuration.getAlarmDuration()*60UL;
+            postSecs = rampUpSecs + configuration.getAlarmPostDuration()*60UL;
+            /* Need to start light ramp up rampUpSecs before alarm time */
+            time_t localTime = localclock.getLocalTime() + rampUpSecs;
             if(dayOfWeek(localTime) == configuration.getAlarmDay() && 
                hour(localTime) == configuration.getAlarmHour() && 
                minute(localTime) == configuration.getAlarmMinute()) {

@@ -31,7 +31,8 @@ private:
   time_t lastTriggered = 0UL;
   boolean active = false;
   boolean timeIsSynced = false;
-  time_t durationSecs;
+  time_t rampUpSecs;
+  time_t postSecs;
 };
 
 #endif

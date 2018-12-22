@@ -66,6 +66,7 @@ public:
   byte getAlarmHour();
   byte getAlarmMinute();
   byte getAlarmDuration();
+  byte getAlarmPostDuration();
   byte getAlarmToHour();
   byte getAlarmToMinute();
   boolean isAlarmEnabled();

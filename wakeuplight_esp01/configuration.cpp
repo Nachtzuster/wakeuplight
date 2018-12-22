@@ -79,6 +79,10 @@ byte Configuration::getAlarmDuration() {
   return alarmDuration;
 }
 
+byte Configuration::getAlarmPostDuration() {
+  return 5;
+}
+
 byte Configuration::getAlarmToHour() {
   return alarmToHour;
 }
