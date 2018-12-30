@@ -23,7 +23,7 @@ void Alarm::loop() {
         }
       } else {
         /* The alarm is currently not active. Check if it's time to become active. */
-        if((now() - lastTriggered) > 60UL) {
+        if((unsigned long)(now() - lastTriggered) > 60UL) {
           if(configuration.isAlarmEnabled()) {
             rampUpSecs = configuration.getAlarmDuration()*60UL;
             postSecs = rampUpSecs + configuration.getAlarmPostDuration()*60UL;
