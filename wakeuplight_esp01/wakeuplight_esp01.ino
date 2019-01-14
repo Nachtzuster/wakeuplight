@@ -39,10 +39,6 @@ Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
 Button button(configuration, light, alarm);
 
-long int lastmillis=0;
-int maxlooptime=0;
-
-
 void setup() {
   Serial.begin(115200);
   configuration.setup();
@@ -50,7 +46,6 @@ void setup() {
   ntpclient.setup();
   serialhost.setup();
   webserver.setup();
-  //yield();
   light.setup();
   button.setup();
 }
