@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* This code is for building a wake-up light (sometimes called a light alarm) with
  * an ESP-01 module. The program gets time via NTP, and converts this to local time.
@@ -39,10 +39,6 @@ Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
 Button button(configuration, light, alarm);
 
-long int lastmillis=0;
-int maxlooptime=0;
-
-
 void setup() {
   Serial.begin(115200);
   configuration.setup();
@@ -50,7 +46,6 @@ void setup() {
   ntpclient.setup();
   serialhost.setup();
   webserver.setup();
-  //yield();
   light.setup();
   button.setup();
 }

@@ -4,7 +4,7 @@ const char* webserverHomepage =
 "<!DOCTYPE html>\r\n"
 "<!-- \r\n"
 " Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.\r\n"
-" This code is in the public domain, please see file UNLICENSE.txt.\r\n"
+" This code is in the public domain, please see file LICENSE.txt.\r\n"
 "--> \r\n"
 "<html lang=en>\r\n"
 "<head>\r\n"

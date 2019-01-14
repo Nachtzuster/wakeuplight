@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* Calculates a function mapping dimmer steps (linear in relation to human eye
  * intensity response) to a PWM value (linear in relation to actual light intensity). 

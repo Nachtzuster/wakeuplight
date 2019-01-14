@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* This module serves the web interface. The web interface is a single-page application that
  * send Ajax requests. The webserver has two handlers; one for handling the GET request to
