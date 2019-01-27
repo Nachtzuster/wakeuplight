@@ -51,3 +51,11 @@ void Button::loop() {
   }
   else sampleTime++;
 }
+bool Button::isHeldDown() {
+  int count = 10;
+  while (digitalRead(buttonPin) == HIGH && count > 0) {
+    count--;
+    delay(100);
+  }
+  return count==0;
+}

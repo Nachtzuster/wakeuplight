@@ -17,8 +17,10 @@
  * the PWM logic.
  */
 
+
+#include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
+
 #include "configuration.h"
-#include "wificlient.h"
 #include "ntpclient.h"
 #include "localclock.h"
 #include "alarm.h"
@@ -30,8 +32,7 @@
 
 Configuration configuration;
 Pixel light;
-WifiClient wificlient(configuration);
-NTPClient ntpclient(configuration, wificlient);
+NTPClient ntpclient(configuration);
 LocalClock localclock(configuration, ntpclient);
 Alarm alarm(configuration, light, localclock);
 Serialhost serialhost(configuration, alarm);
@@ -41,20 +42,24 @@ Button button(configuration, light, alarm);
 
 void setup() {
   Serial.begin(115200);
+  WiFiManager wifiManager;
   configuration.setup();
-  wificlient.setup();
+  button.setup();
+  if (button.isHeldDown()) {
+    Serial.println("button was held down, resetting wifi settings");
+    wifiManager.resetSettings();
+  }
+  wifiManager.autoConnect("wakeuplight", "wakeuplight");
   ntpclient.setup();
   serialhost.setup();
   webserver.setup();
   light.setup();
-  button.setup();
 }
 
 /* Loop time while idle is 55 microseconds (18 kHz). Handling a web request is pretty slow,
  * takes about .5 seconds. */
 
 void loop() {
-  wificlient.loop();
   ntpclient.loop();
   alarm.loop();
   serialhost.loop();

@@ -21,6 +21,7 @@ public:
   Button(Configuration& configuration, Light& light, Alarm& alarm);
   void setup();
   void loop();
+  bool isHeldDown();
 };
 
 #endif

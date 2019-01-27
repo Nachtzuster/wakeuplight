@@ -9,8 +9,8 @@
  
 #include "ntpclient.h"
 
-NTPClient::NTPClient(Configuration& configuration, WifiClient& wificlient) : 
-  configuration(configuration), wificlient(wificlient) {
+NTPClient::NTPClient(Configuration& configuration) :
+  configuration(configuration) {
 }
 
 void NTPClient::setup() {
@@ -21,7 +21,7 @@ void NTPClient::setup() {
 }
 
 void NTPClient::loop() {
-  if(!timeSet && wificlient.isConnected()) {
+  if(!timeSet) {
     if(!firstPacketSent || ((millis() - lastPacketSentMillis) > 1000)) sendNTPpacket();
     receiveNTPpacket();
   }
@@ -69,4 +69,3 @@ void NTPClient::receiveNTPpacket() {
     timeSet = true;
   }
 }
-
