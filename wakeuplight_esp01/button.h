@@ -10,12 +10,10 @@ private:
   const uint8_t buttonPin = 16;
   int sampleTime = 0;
   int touched = 0;
-  unsigned long lastCheckMillis = 0;
   int lightState = 0;
   Configuration& configuration;  
   Light& light;
   Alarm& alarm;
-  //LocalClock& localclock;
 public:
   Button(Configuration& configuration, Light& light, Alarm& alarm);
   void setup();
