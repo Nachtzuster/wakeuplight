@@ -10,7 +10,6 @@
 #include <Arduino.h>
 #include "configuration.h"
 #include "dimmer.h"
-#include "wificlient.h"
 #include "localclock.h"
 #include "alarm.h"
 

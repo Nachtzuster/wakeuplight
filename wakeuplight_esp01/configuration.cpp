@@ -267,26 +267,6 @@ void Configuration::initAlarmDef(int alarmId){
   }
 }
 
-const char* Configuration::getWifiSSID() {
-  return wifiSSID;
-}
-
-const char* Configuration::getWifiPassword() {
-  return wifiPassword;
-}
-
-boolean Configuration::isDynamicIP() {
-  return dynamicIP;
-}
-
-void Configuration::getIPConfiguration(IPAddress& ip, IPAddress& gateway, IPAddress& subnet, IPAddress& dns1, IPAddress& dns2) {
-  ip = this->ip;
-  gateway = this->gateway;
-  subnet = this->subnet;
-  dns1 = this->dns1;
-  dns2 = this->dns2;
-}
-
 unsigned int Configuration::getNtpLocalPort() {
   return ntpLocalPort;
 }

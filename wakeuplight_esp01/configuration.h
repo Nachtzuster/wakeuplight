@@ -37,16 +37,7 @@ struct AlarmDef {
 };
 
 class Configuration {
-private:  
-  /* Network settings - change as appropriate. */
-  const char* wifiSSID = "XXXXXXXXXXX";  
-  const char* wifiPassword = "YYYYYYYYYY";
-  boolean dynamicIP = false;
-  byte ip[4] = {192,168,178,200};
-  byte gateway[4] = {192,168,178,1};
-  byte subnet[4] = {255,255,255,0};
-  byte dns1[4] = {8,8,8,8};
-  byte dns2[4] = {1,1,1,1};
+private:
   const char* ntpserver = "0.nl.pool.ntp.org";
   unsigned int ntpLocalPort = 2309U;
 
@@ -84,11 +75,7 @@ public:
   void serializeAlarmList(JsonObject& status);
   void flushEeprom();
   void loop();
-  
-  const char* getWifiSSID();
-  const char* getWifiPassword();
-  boolean isDynamicIP();
-  void getIPConfiguration(IPAddress& ip, IPAddress& gateway, IPAddress& subnet, IPAddress& dns1, IPAddress& dns2);
+
   unsigned int getNtpLocalPort();
   const char* getNtpServerName();
   int getStandardTimeOffset();
