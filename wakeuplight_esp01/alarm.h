@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* This class provides the core functionality of the wakeup-light. It compares the
  * current time compared to the configured alarm times, and adjusts the light

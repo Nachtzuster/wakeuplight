@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* This code is for building a wake-up light (sometimes called a light alarm) with
  * an ESP-01 module. The program gets time via NTP, and converts this to local time.

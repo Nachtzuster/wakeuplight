@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* This class converts the system time to a local time, taking into
  * account the time offset and possible daylight savings rules, which
