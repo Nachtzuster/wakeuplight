@@ -1,3 +1,6 @@
+/* Author: Frederik Slos <frederik.slos@gmail.com>, 2019.
+ * This code is in the public domain, please see file LICENSE.txt. */
+
 #include "button.h"
 
 Button::Button(Configuration& configuration, Light& light, Alarm& alarm) :
