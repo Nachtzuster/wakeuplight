@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* This is a helper program that takes the index.html of this project and converts it to
  * the a header file for the Arduino project. This makes development of the web page a lot

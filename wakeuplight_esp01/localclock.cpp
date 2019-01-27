@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
  
 #include "localclock.h"
 
@@ -82,4 +82,3 @@ int LocalClock::dayOfWeekFromYMD(int y, int m, int d) {
   y -= m < 3;
   return (y + y/4 - y/100 + y/400 + t[m-1] + d) % 7;
 }
-

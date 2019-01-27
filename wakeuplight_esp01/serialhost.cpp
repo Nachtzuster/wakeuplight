@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
  
 /* This code contains sections from the Serial Event example (available in
  * the Arduino 1.6.6 IDE), written by by Tom Igoe (2011).
@@ -35,5 +35,3 @@ void Serialhost::handleSerialCommand() {
   commandString.trim();
   Serial.println("# Unknown command");
 }
-
-

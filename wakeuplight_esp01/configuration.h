@@ -1,5 +1,5 @@
 /* Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
- * This code is in the public domain, please see file UNLICENSE.txt. */
+ * This code is in the public domain, please see file LICENSE.txt. */
 
 /* Class to access all configuration data for the wake-up light. The actual alarm settings that the user may
  * want to change regularly are in EEPROM. Other things like network and timezone settings are hardcoded.  */
