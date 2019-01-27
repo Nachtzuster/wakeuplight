@@ -12,19 +12,17 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include "configuration.h"
-#include "wificlient.h"
 
 class NTPClient {
 
 public:
-  NTPClient(Configuration& configuration, WifiClient& wificlient);
+  NTPClient(Configuration& configuration);
   void setup();
   void loop();
   boolean isTimeSet();
 
 private:
   Configuration& configuration;
-  WifiClient& wificlient;
   WiFiUDP udp;
   static const int ntpPacketSize = 48;
   byte packetBuffer[ntpPacketSize];
