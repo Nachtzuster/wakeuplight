@@ -38,7 +38,7 @@ struct AlarmDef {
 
 class Configuration {
 private:
-  const char* ntpserver = "0.nl.pool.ntp.org";
+  const char* ntpserver = "0.pool.ntp.org";
   unsigned int ntpLocalPort = 2309U;
 
   /* Time zone settings: currently configured for Central European Time (CET, UTC+1), with
