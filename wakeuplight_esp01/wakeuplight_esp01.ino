@@ -44,16 +44,16 @@ void setup() {
   Serial.begin(115200);
   WiFiManager wifiManager;
   configuration.setup();
+  light.setup();
   button.setup();
+  serialhost.setup();
   if (button.isHeldDown()) {
     Serial.println("button was held down, resetting wifi settings");
     wifiManager.resetSettings();
   }
   wifiManager.autoConnect("wakeuplight", "wakeuplight");
   ntpclient.setup();
-  serialhost.setup();
   webserver.setup();
-  light.setup();
   MDNS.begin("wakeuplight");
   MDNS.addService("http", "tcp", 80);
 }
