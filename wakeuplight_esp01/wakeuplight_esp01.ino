@@ -17,7 +17,7 @@
  * the PWM logic.
  */
 
-
+#include <ESP8266mDNS.h>
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
 
 #include "configuration.h"
@@ -54,6 +54,8 @@ void setup() {
   serialhost.setup();
   webserver.setup();
   light.setup();
+  MDNS.begin("wakeuplight");
+  MDNS.addService("http", "tcp", 80);
 }
 
 /* Loop time while idle is 55 microseconds (18 kHz). Handling a web request is pretty slow,
