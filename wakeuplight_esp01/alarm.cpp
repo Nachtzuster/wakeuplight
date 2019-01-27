@@ -3,7 +3,7 @@
 
 #include "alarm.h"
 
-Alarm::Alarm(Configuration& configuration, Pixel& light, LocalClock& localclock) : 
+Alarm::Alarm(Configuration& configuration, Light& light, LocalClock& localclock) :
   configuration(configuration), light(light), localclock(localclock) {
 }
 

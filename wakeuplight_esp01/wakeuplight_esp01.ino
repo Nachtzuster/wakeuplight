@@ -29,15 +29,15 @@
 #include "button.h"
 
 Configuration configuration;
-Pixel pixel;
+Pixel light;
 WifiClient wificlient(configuration);
 NTPClient ntpclient(configuration, wificlient);
 LocalClock localclock(configuration, ntpclient);
-Alarm alarm(configuration, pixel, localclock);
+Alarm alarm(configuration, light, localclock);
 Serialhost serialhost(configuration, alarm);
 Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
-Button button(configuration, pixel, alarm);
+Button button(configuration, light, alarm);
 
 long int lastmillis=0;
 int maxlooptime=0;
@@ -51,7 +51,7 @@ void setup() {
   serialhost.setup();
   webserver.setup();
   //yield();
-  pixel.setup();
+  light.setup();
   button.setup();
 }
 
@@ -65,7 +65,7 @@ void loop() {
   serialhost.loop();
   webserver.loop();
   clockdisplay.loop();
-  pixel.loop();
+  light.loop();
   button.loop();
   configuration.loop();
 }

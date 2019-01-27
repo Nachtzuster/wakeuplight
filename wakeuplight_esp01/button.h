@@ -2,7 +2,7 @@
 #define BUTTON_H
 
 #include "configuration.h"
-#include "neo_pix.h"
+#include "light.h"
 #include "alarm.h"
 
 class Button {
@@ -13,11 +13,11 @@ private:
   unsigned long lastCheckMillis = 0;
   int lightState = 0;
   Configuration& configuration;  
-  Pixel& light;
+  Light& light;
   Alarm& alarm;
   //LocalClock& localclock;
 public:
-  Button(Configuration& configuration, Pixel& light, Alarm& alarm);
+  Button(Configuration& configuration, Light& light, Alarm& alarm);
   void setup();
   void loop();
 };

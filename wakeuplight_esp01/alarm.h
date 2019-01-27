@@ -12,12 +12,12 @@
 
 #include "configuration.h"
 #include "localclock.h"
-#include "neo_pix.h"
+#include "light.h"
 
 class Alarm {
 
 public:
-  Alarm(Configuration& configuration, Pixel& light, LocalClock& localclock);
+  Alarm(Configuration& configuration, Light& light, LocalClock& localclock);
   void loop();
   boolean isActive();
   void deactivate();
@@ -25,7 +25,7 @@ public:
 
 private:
   Configuration& configuration;  
-  Pixel& light;
+  Light& light;
   LocalClock& localclock;
   unsigned long lastCheckMillis;
   time_t lastTriggered = 0UL;

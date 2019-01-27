@@ -24,8 +24,9 @@
 #define DIMMER_H
 
 #include <Arduino.h>
+#include "light.h"
 
-class Dimmer {
+class Dimmer : public Light {
 
 public:
   void setup();
