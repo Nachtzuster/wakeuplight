@@ -10,7 +10,7 @@
 #include "ntpclient.h"
 
 NTPClient::NTPClient(Configuration& configuration) :
-  configuration(configuration) {
+  configuration(configuration), lastPacketSentMillis(0) {
 }
 
 void NTPClient::setup() {
