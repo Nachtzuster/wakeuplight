@@ -16,7 +16,7 @@
 class NTPClient {
 
 public:
-  NTPClient(Configuration& configuration);
+  explicit NTPClient(Configuration& configuration);
   void setup();
   void loop();
   boolean isTimeSet();
