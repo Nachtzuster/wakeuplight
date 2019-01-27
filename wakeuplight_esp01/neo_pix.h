@@ -2,12 +2,13 @@
 #define NEO_PIX_H
 
 #include <NeoPixelBus.h>
+#include "light.h"
 #include "configuration.h"
 #include "localclock.h"
 
 #define NUM_LEDS 49
 
-class Pixel {
+class Pixel : public Light {
 private:
   NeoPixelBus<NeoGrbFeature, NeoEsp8266UartWs2813Method> strip;
 

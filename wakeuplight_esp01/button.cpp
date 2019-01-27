@@ -1,6 +1,6 @@
 #include "button.h"
 
-Button::Button(Configuration& configuration, Pixel& light, Alarm& alarm) : 
+Button::Button(Configuration& configuration, Light& light, Alarm& alarm) :
   configuration(configuration), light(light), alarm(alarm) {
 }
 
