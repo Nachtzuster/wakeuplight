@@ -45,6 +45,7 @@ void setup() {
   WiFiManager wifiManager;
   configuration.setup();
   light.setup();
+  clockdisplay.setup();
   button.setup();
   serialhost.setup();
   if (button.isHeldDown()) {

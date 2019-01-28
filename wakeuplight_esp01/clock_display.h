@@ -18,7 +18,7 @@ private:
   void setBrightness();
 
 public:
-  Clockdisplay(LocalClock& localclock);
+  explicit Clockdisplay(LocalClock& localclock);
   void setup();
   void loop();
 };
