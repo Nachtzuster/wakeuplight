@@ -28,3 +28,17 @@ void Clockdisplay::setBrightness() {
   unsigned int brightness = round(sqrt(light)/4.57);
   displ.setBrightness(brightness);
 }
+
+void Clockdisplay::showStatus(int status) {
+  switch(status) {
+    case WAIT_WIFI_CONF:
+      displ.setSegments(SEG_WIFI_CONF);
+      break;
+    case WAIT_WIFI_CONN:
+      displ.setSegments(SEG_WIFI_CONN);
+      break;
+    case WAIT_NTP_RESP:
+      displ.setSegments(SEG_NTP_RESP);
+      break;
+  }
+}
