@@ -1,7 +1,13 @@
+/* Author: Frederik Slos <frederik.slos@gmail.com>, 2019.
+ * This code is in the public domain, please see file LICENSE.txt. */
+
 #include "clock_display.h"
 
 Clockdisplay::Clockdisplay(LocalClock& localclock) :
-  localclock(localclock), displ(ClockPin, DataPin) {
+  localclock(localclock), displ(ClockPin, DataPin), lastCheckMillis(0) {
+}
+
+void Clockdisplay::setup() {
   pinMode(A0, INPUT);
   displ.setBrightness(7);
 }

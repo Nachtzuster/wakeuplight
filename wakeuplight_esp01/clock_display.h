@@ -1,3 +1,6 @@
+/* Author: Frederik Slos <frederik.slos@gmail.com>, 2019.
+ * This code is in the public domain, please see file LICENSE.txt. */
+
 #ifndef CLOCK_DISPLAY_H
 #define CLOCK_DISPLAY_H
 
@@ -18,7 +21,7 @@ private:
   void setBrightness();
 
 public:
-  Clockdisplay(LocalClock& localclock);
+  explicit Clockdisplay(LocalClock& localclock);
   void setup();
   void loop();
 };
