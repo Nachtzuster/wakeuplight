@@ -40,9 +40,16 @@ Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
 Button button(configuration, light, alarm);
 
+void configModeCallback (WiFiManager *myWiFiManager) {
+  Serial.println("Entered config mode");
+  Serial.println(WiFi.softAPIP());
+  clockdisplay.showStatus(WAIT_WIFI_CONF);
+}
+
 void setup() {
   Serial.begin(115200);
   WiFiManager wifiManager;
+  wifiManager.setAPCallback(configModeCallback);
   configuration.setup();
   light.setup();
   clockdisplay.setup();
@@ -52,7 +59,9 @@ void setup() {
     Serial.println("button was held down, resetting wifi settings");
     wifiManager.resetSettings();
   }
+  else clockdisplay.showStatus(WAIT_WIFI_CONN);
   wifiManager.autoConnect("wakeuplight", "wakeuplight");
+  clockdisplay.showStatus(WAIT_NTP_RESP);
   ntpclient.setup();
   webserver.setup();
   MDNS.begin("wakeuplight");
