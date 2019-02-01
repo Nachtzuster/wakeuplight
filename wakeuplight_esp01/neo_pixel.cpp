@@ -1,4 +1,4 @@
-#include "neo_pix.h"
+#include "neo_pixel.h"
 
 Pixel::Pixel() :
   strip(NUM_LEDS){

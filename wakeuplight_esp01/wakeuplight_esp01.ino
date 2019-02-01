@@ -25,7 +25,7 @@
 #include "serialhost.h"
 #include "webserver.h"
 #include "clock_display.h"
-#include "neo_pix.h"
+#include "neo_pixel.h"
 #include "button.h"
 
 Configuration configuration;
