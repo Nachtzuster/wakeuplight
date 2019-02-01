@@ -35,5 +35,3 @@ void Serialhost::handleSerialCommand() {
   commandString.trim();
   Serial.println("# Unknown command");
 }
-
-
