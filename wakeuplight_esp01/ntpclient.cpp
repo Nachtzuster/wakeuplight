@@ -21,10 +21,8 @@ void NTPClient::setup() {
 }
 
 void NTPClient::loop() {
-  if(!timeSet) {
-    if(!firstPacketSent || ((millis() - lastPacketSentMillis) > 1000)) sendNTPpacket();
-    receiveNTPpacket();
-  }
+  if((millis() - lastPacketSentMillis) > sendDelay) sendNTPpacket();
+  if(packetSent && (millis() - lastPacketSentMillis) < 1000) receiveNTPpacket();
 }
 
 boolean NTPClient::isTimeSet() {
@@ -52,13 +50,14 @@ void NTPClient::sendNTPpacket() {
   udp.beginPacket(timeServerIP, 123);
   udp.write(packetBuffer, ntpPacketSize);
   udp.endPacket();
-  firstPacketSent = true;
+  packetSent = true;
   lastPacketSentMillis = millis();
 }
 
 void NTPClient::receiveNTPpacket() {
   int packetSize = udp.parsePacket();
   if(packetSize != 0) {
+    packetSent = false;
     Serial.println("# NTPClient::receiveNTPpacket: Packet received, setting time");
     udp.read(packetBuffer, ntpPacketSize);
     unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
@@ -67,5 +66,6 @@ void NTPClient::receiveNTPpacket() {
     unsigned long epoch = secsSince1900 - 2208988800UL;      
     setTime(epoch);
     timeSet = true;
+    sendDelay = 1000 * 60 * 10;  // every ten minutes
   }
 }

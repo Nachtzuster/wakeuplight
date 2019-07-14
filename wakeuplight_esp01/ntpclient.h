@@ -22,12 +22,13 @@ public:
   boolean isTimeSet();
 
 private:
+  unsigned long sendDelay = 1000;
   Configuration& configuration;
   WiFiUDP udp;
   static const int ntpPacketSize = 48;
   byte packetBuffer[ntpPacketSize];
-  boolean firstPacketSent = false;
-  unsigned long lastPacketSentMillis;
+  boolean packetSent = false;
+  unsigned long lastPacketSentMillis = 0;
   boolean timeSet = false;
   void sendNTPpacket();
   void receiveNTPpacket();
