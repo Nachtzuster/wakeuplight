@@ -10,7 +10,7 @@
 
 class Pixel : public Light {
 private:
-  NeoPixelBus<NeoGrbFeature, NeoEsp8266UartWs2813Method> strip;
+  NeoPixelBus<NeoGrbFeature, NeoEsp8266Uart1Ws2813Method> strip;
 
   HsbColor dark = HsbColor(0.0f,1.0f,0.01f);
   HsbColor red = HsbColor(0.02f,0.9f,0.12f);
