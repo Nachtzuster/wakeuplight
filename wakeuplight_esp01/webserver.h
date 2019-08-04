@@ -31,7 +31,7 @@ private:
   ESP8266WebServer server;
   void handleRoot();
   void handleCommand();  
-  void serializeStatus(JsonObject& status);
+  void serializeStatus(JsonDocument& status);
 
   const char* modeInit = "INIT";
   const char* modeActive = "ACTIVE";

@@ -72,7 +72,7 @@ public:
   void setAlarmEnableDay(int alarmId, int day_number, boolean enable);
   void expandAlarmList();
   void reduceAlarmList(int alarmId);
-  void serializeAlarmList(JsonObject& status);
+  void serializeAlarmList(JsonDocument& status);
   void flushEeprom();
   void loop();
 
