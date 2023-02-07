@@ -170,7 +170,7 @@ const char* webserverHomepage =
 "				'<label><input type=\"checkbox\" id=\"fri-' + alarm.id + '\" class=\"detail\" ' + (alarm.fri ? 'checked' : '') + '>Fri</label>' +\r\n"
 "				'<label><input type=\"checkbox\" id=\"sat-' + alarm.id + '\" class=\"detail\" ' + (alarm.sat ? 'checked' : '') + '>Sat</label>' +\r\n"
 "				'<label><input type=\"checkbox\" id=\"sun-' + alarm.id + '\" class=\"detail\" ' + (alarm.sun ? 'checked' : '') + '>Sun</label>' +\r\n"
-"			'</div></li>'\r\n"
+"			'</div><hr></li>'\r\n"
 "		}\r\n"
 "		return str;\r\n"
 "	}\r\n"
