@@ -25,7 +25,7 @@ I used an Olimex MOD-WIFI-ESP8266, but any ESP-12 variant would probably do.
 ## Dependencies
 
 - _ArduinoJson_ by Benoit Blanchon
-- _NeoPixelBus by Makuna_ by Michael C. Miller (makuna@live.com) (2.3.x)
+- _NeoPixelBus by Makuna_ by Michael C. Miller (makuna@live.com)
 - _Time_ by Michael Margolis
 - _TM1637_ by Avishay Orpaz <avishorp@gmail.com>
 - _WiFiManager_ by tzapu
