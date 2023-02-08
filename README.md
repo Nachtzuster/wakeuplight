@@ -18,6 +18,9 @@ Starting from the light and web ui, these were added:
     - clear Wifi settings when held down at power-up
 - NeoPixel as a light source
 
+## UI
+<img src="docs/ui.png" width="33%" height="33%">
+
 ## Hardware
 With all the added functionality, the number of exposed IO pins on an ESP-01 is not enough.
 I used an Olimex MOD-WIFI-ESP8266, but any ESP-12 variant would probably do.
