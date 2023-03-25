@@ -73,6 +73,7 @@ void setup() {
  * takes about .5 seconds. */
 
 void loop() {
+  MDNS.update();
   ntpclient.loop();
   alarm.loop();
   serialhost.loop();
