@@ -77,16 +77,15 @@ void Webserver::handleCommand() {
       configuration.setNextAlarm(localTime);
     }
   }
-
-  StaticJsonBuffer<JSON_OBJECT_SIZE(11+2) + (JSON_ARRAY_SIZE(MAX_ALARMS) + JSON_OBJECT_SIZE(1) + MAX_ALARMS*JSON_OBJECT_SIZE(SIZE_ALARM))> jsonBuffer;
-  JsonObject& status = jsonBuffer.createObject();
+  const size_t capacity = JSON_OBJECT_SIZE(11+2) + (JSON_ARRAY_SIZE(MAX_ALARMS) + JSON_OBJECT_SIZE(1) + MAX_ALARMS*JSON_OBJECT_SIZE(SIZE_ALARM));
+  DynamicJsonDocument status(capacity);
   serializeStatus(status);
   if(return_alarms != NULL && return_alarms != "") configuration.serializeAlarmList(status);
-  status.printTo(responseBuffer, RESPONSE_BUFFER_SIZE);
+  serializeJson(status, responseBuffer);
   server.send(200, "application/json", responseBuffer);
 }
 
-void Webserver::serializeStatus(JsonObject& status) {
+void Webserver::serializeStatus(JsonDocument& status) {
   time_t localTime = localclock.getLocalTime();
   String mode;
   

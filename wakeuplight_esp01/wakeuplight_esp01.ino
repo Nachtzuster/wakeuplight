@@ -50,6 +50,7 @@ void setup() {
   Serial.begin(115200);
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModeCallback);
+  wifiManager.setConfigPortalTimeout(180);
   configuration.setup();
   light.setup();
   clockdisplay.setup();

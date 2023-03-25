@@ -228,12 +228,12 @@ void Configuration::reduceAlarmList(int alarmId){
   eepromDirty = true;
 }
 
-void Configuration::serializeAlarmList(JsonObject& status){
-  JsonArray& alarms = status.createNestedArray("alarms");
+void Configuration::serializeAlarmList(JsonDocument& status){
+  JsonArray alarms = status.createNestedArray("alarms");
 
   for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++){
     if (!alarmList[alarmId].hidden){
-      JsonObject& alarm = alarms.createNestedObject();
+      JsonObject alarm = alarms.createNestedObject();
       alarm["id"] = alarmId;
       alarm["hour"] = alarmList[alarmId].hour;
       alarm["minute"] = alarmList[alarmId].minute;
