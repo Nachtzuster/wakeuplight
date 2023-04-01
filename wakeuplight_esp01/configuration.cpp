@@ -22,9 +22,7 @@ void Configuration::setup() {
       alarmList[alarmId].days[i] = readBoolean(addrEnableMon + i + SIZE_ALARM * alarmId, corrupt);
     }
     if (corrupt) {
-      Serial.println("# Configuration::setup alarm time corrupt");
-      Serial.print("alarmId: ");
-      Serial.println(alarmId);
+      Serial.printf_P(PSTR("# Configuration::setup alarm time corrupt. alarmId: %d\n"), alarmId);
       initAlarmDef(alarmId);
     }
   }
@@ -57,7 +55,7 @@ void Configuration::loop() {
 
 void Configuration::flushEeprom(){
   if (eepromDirty) {
-    if(!EEPROM.commit()) Serial.println("# Configuration::flushEeprom: EEPROM.commit failed");
+    if(!EEPROM.commit()) Serial.println(F("# Configuration::flushEeprom: EEPROM.commit failed"));
     else eepromDirty = false;
     yield();
   }
@@ -96,7 +94,7 @@ boolean Configuration::isAlarmEnabled() {
 }
 
 void Configuration::alarmIsTriggered(time_t localTime){
-  Serial.println("Configuration::alarmIsTriggered");
+  Serial.println(F("Configuration::alarmIsTriggered"));
   if (!alarmList[nextAlarmId].repeat) setAlarmEnabled(nextAlarmId, false);
   setNextAlarm(localTime);
 }

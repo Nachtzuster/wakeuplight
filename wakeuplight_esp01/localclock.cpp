@@ -64,7 +64,7 @@ int LocalClock::dayInMonth(int occurence, int dayOfWeek, int m, int y) {
     if(dayOfWeekFromYMD(y, m, dayOfMonth) == dayOfWeek) count++;
     if(count == occurence) return dayOfMonth;
   }
-  Serial.println("# LocalClock::dayInMonth - not found!");
+  Serial.println(F("# LocalClock::dayInMonth - not found!"));
   return 0;
 }
 

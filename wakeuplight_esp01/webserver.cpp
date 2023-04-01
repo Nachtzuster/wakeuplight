@@ -11,7 +11,7 @@ Webserver::Webserver(Configuration& configuration, LocalClock& localclock, Alarm
 }
 
 void Webserver::setup() {
-  Serial.println("# Webserver::setup: starting");
+  Serial.println(F("# Webserver::setup: starting"));
   server.on("/", std::bind(&Webserver::handleRoot, this));
   server.on("/L", std::bind(&Webserver::handleCommand, this));
   server.begin();

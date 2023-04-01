@@ -42,7 +42,7 @@ Button button(configuration, light, alarm);
 
 void configModeCallback (WiFiManager *myWiFiManager) {
   (void)myWiFiManager;  // silence warning
-  Serial.println("Entered config mode");
+  Serial.println(F("Entered config mode"));
   clockdisplay.showStatus(WAIT_WIFI_CONF);
 }
 
@@ -52,7 +52,7 @@ void initWifi() {
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.setConfigPortalTimeout(300);
   if (button.isHeldDown()) {
-    Serial.println("button was held down, resetting wifi settings");
+    Serial.println(F("button was held down, resetting wifi settings"));
     wifiManager.resetSettings();
   }
   else clockdisplay.showStatus(WAIT_WIFI_CONN);

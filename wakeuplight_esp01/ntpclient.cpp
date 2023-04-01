@@ -14,10 +14,9 @@ NTPClient::NTPClient(Configuration& configuration) :
 }
 
 void NTPClient::setup() {
-  Serial.println("# NTPClient::setup: Starting UDP to receive NTP packets");
+  Serial.println(F("# NTPClient::setup: Starting UDP to receive NTP packets"));
   udp.begin(configuration.getNtpLocalPort());
-  Serial.print("# NTPClient::setup: Local port: ");
-  Serial.println(udp.localPort());
+  Serial.printf_P(PSTR("# NTPClient::setup: Local port: %d\n"), udp.localPort());
 }
 
 void NTPClient::loop() {
@@ -30,7 +29,7 @@ boolean NTPClient::isTimeSet() {
 }
 
 void NTPClient::sendNTPpacket() {
-  Serial.println("# NTPClient::sendNTPpacket: Sending packet");
+  Serial.println(F("# NTPClient::sendNTPpacket: Sending packet"));
   /* Get the IP address. */
   IPAddress timeServerIP;
   WiFi.hostByName(configuration.getNtpServerName(), timeServerIP);   
@@ -58,7 +57,7 @@ void NTPClient::receiveNTPpacket() {
   int packetSize = udp.parsePacket();
   if(packetSize != 0) {
     packetSent = false;
-    Serial.println("# NTPClient::receiveNTPpacket: Packet received, setting time");
+    Serial.println(F("# NTPClient::receiveNTPpacket: Packet received, setting time"));
     udp.read(packetBuffer, ntpPacketSize);
     unsigned long highWord = word(packetBuffer[40], packetBuffer[41]);
     unsigned long lowWord = word(packetBuffer[42], packetBuffer[43]);
