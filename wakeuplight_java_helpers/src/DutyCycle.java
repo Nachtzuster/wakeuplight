@@ -14,13 +14,20 @@ public class DutyCycle {
 	
 	static double c = (double)(PWM_RANGE - PWM_MARGIN) + a;
 	static double b = Math.log((c - (double)PWM_MARGIN) / a);
+	static double d = PWM_MARGIN - a ;
 
-	static int duty(int n) {
+	static int duty(int n, boolean inverted) {
 		if(n < 0) throw new IllegalArgumentException("n must be >= 0");
 		if(n > STEPS) throw new IllegalArgumentException("n must be <= STEPS");
-		if(n == 0) return PWM_RANGE;
-		if(n == STEPS) return 0;
-		return (int)Math.floor(c - a * Math.exp(b*((double)n - 1d)/((double)STEPS - 2)));
+		if (inverted) {
+		  if(n == 0) return PWM_RANGE;
+		  if(n == STEPS) return 0;
+		  return (int)Math.floor(c - a * Math.exp(b*((double)n - 1d)/((double)STEPS - 2)));
+		} else {
+		  if(n == 0) return 0;
+		  if(n == STEPS) return PWM_RANGE;
+		  return (int)Math.floor(d + a * Math.exp(b*((double)n - 1d)/((double)STEPS - 2)));
+		}
 	}
 
 }

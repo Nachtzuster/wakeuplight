@@ -13,6 +13,16 @@ public class ConvertDutyCycleToEsp {
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException {
 		System.out.println("Writing duty cycle for ESP");
+		boolean inverted;
+		if ((args.length > 1) && (args[1].equals("--inverted"))) {
+		  System.out.println("Inverting ...");
+		  inverted = true;
+		} else {
+		  System.out.println("Non-inverting ...");
+		  inverted = false;
+		}
+	  System.out.println(DutyCycle.c);
+    System.out.println(DutyCycle.b);
 		try (FileWriter fw = new FileWriter("../wakeuplight_esp01/dimmer_pwm.h")) {
 			fw.write("/* This is generated code! */\r\n\r\n");
 			fw.write("const int dimmerFrequency = " + 100 + ";\r\n");
@@ -20,7 +30,7 @@ public class ConvertDutyCycleToEsp {
 			fw.write("const int dimmerSteps = " + DutyCycle.STEPS + ";\r\n");
 			fw.write("const int dimmerValues[] = {\r\n    ");
 			for(int n = 0; n <= DutyCycle.STEPS; n++) {
-				fw.write(Integer.toString(DutyCycle.duty(n)));
+				fw.write(Integer.toString(DutyCycle.duty(n, inverted)));
 				if(n != DutyCycle.STEPS) {
 					fw.write(",");
 					if(n % 10 == 9) {
