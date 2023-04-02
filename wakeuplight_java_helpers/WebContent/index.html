@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- 
+<!--
  Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
  This code is in the public domain, please see file LICENSE.txt.
---> 
+-->
 <html lang=en>
 <head>
 <meta charset=utf-8>
@@ -20,7 +20,7 @@ dialog{text-align: center}
 button.main { width: 18%; margin: 2%; padding-top: 12px;	padding-bottom: 12px; }
 label { display:inline-block }
 ul {list-style-type:none ; padding:0px}
-</style>	
+</style>
 </head>
 <body>
 	<div id=main>
@@ -30,30 +30,30 @@ ul {list-style-type:none ; padding:0px}
 		<h1 id=time class="stage2 time" style="display: none;">&nbsp;</h1>
 		<h1 class="stage1 date">&nbsp;</h1>
 		<h1 id=date class="stage2 date" style="display: none;">&nbsp;</h1>
-		
+
 		<ul id="alarms">
 		</ul>
-		
+
 		<h3 class="stage1">&nbsp;</h3>
 		<h3 class="stage2" style="display: none;">
 			<span id=from>&nbsp;</span>
 			&ndash;
 			<span id=to>&nbsp;</span>
 		</h3>
-		<button disabled class="main" id=btn_alarm_add>+</button>	
+		<button disabled class="main" id=btn_alarm_add>+</button>
 		<div id=alarmstatebuttons>
 			<button disabled class="main" id=btn_alarm_faster>Faster</button>
 			<button disabled class="main" id=btn_alarm_slower>Slower</button>
-		</div>		
-	
+		</div>
+
 	</div>
 	<dialog id="confirm_delete" >
-		<h3>Delete alarm?</h3> 
+		<h3>Delete alarm?</h3>
 	    <button id="delete_ok">Ok</button>
 	    <button id="delete_cancel">Cancel</button>
 	</dialog>
 	<dialog id="alarm_active" >
-		<h3>Wake up!</h3> 
+		<h3>Wake up!</h3>
 	    <button id="btn_alarm_dismis">Ok</button>
 	</dialog>
 	<script src=https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js></script>
@@ -65,13 +65,13 @@ ul {list-style-type:none ; padding:0px}
 		$("button.main").click(function(event) { $.post( "L?inp=" + event.target.id + "&val=0", "", processData ); } );
 
 	});
-	
+
 	function processData(json) {
 		if(json.hasOwnProperty('status')) processStatus(json);
 		if(json.hasOwnProperty('alarms')) processAlarms(json);
 		updateOnCheckbox();
 	}
-	
+
 	function processStatus(json){
 		if(json.status == "INIT") {
 			$("#stage1header").html("Acquiring time...");
@@ -87,14 +87,14 @@ ul {list-style-type:none ; padding:0px}
 			$("#date").html(json.day + " " + pad(json.month) + " " + json.year);
 			$("#from").html(json.next_day + " " + json.next_hour + ":" + pad(json.next_minute));
 			$("#to").html(json.to_hour + ":" + pad(json.to_minute));
-			if(json.status == "ACTIVE") {				
+			if(json.status == "ACTIVE") {
 				var dialog = document.getElementById("alarm_active");
 				if (!dialog.open){
 					dialog.showModal();
-				    document.getElementById("btn_alarm_dismis").onclick = function() {  
+				    document.getElementById("btn_alarm_dismis").onclick = function() {
 				        dialog.close();
 				        $.post( "L?inp=" + event.target.id + "&val=0", "", processData );
-				    };	
+				    };
 				}
 			} else {
 				var dialog = document.getElementById("alarm_active");
@@ -102,9 +102,9 @@ ul {list-style-type:none ; padding:0px}
 					dialog.close();
 				}
 			}
-		}		
+		}
 	}
-	
+
 	function processAlarms(json){
 		$("#alarms").html(buildalarms(json.alarms));
 		$("input[type=time]").change(function(event) {
@@ -114,30 +114,30 @@ ul {list-style-type:none ; padding:0px}
 		$(":checkbox").change(function(event) {
 			$.post( "L?inp=" + event.target.id + "&val=" +  event.target.checked, "", processData );
 			} );
-		$("button.alarm").click(function(event) {				
+		$("button.alarm").click(function(event) {
 			var dialog = document.getElementById("confirm_delete");
 			dialog.showModal();
-		    document.getElementById("delete_cancel").onclick = function() {  
-		        dialog.close();  
+		    document.getElementById("delete_cancel").onclick = function() {
+		        dialog.close();
 		    };
-		    document.getElementById("delete_ok").onclick = function() {  
+		    document.getElementById("delete_ok").onclick = function() {
 		        dialog.close();
 				$.post( "L?inp=" + event.target.id + "&val=0", "", processData );
-		    };  
+		    };
 
 		} );
 	}
-	
+
 	function pad(n){
 		return (n<10) ? ("0" + n) : n;
 	}
-	
+
 	function updateOnCheckbox(){
 		$("li").each(function( index, element ) {
 			var details = $(this).find('.detail');
 			var enable = $(this).find('label > [name=enable]');
 			details.prop("disabled", !enable.is(':checked'));
-			});	 
+			});
 		$("li").each(function( index, element ) {
 		    var daybuttons = $(this).find('div');
 		    var repeat = $(this).find('label > [name=repeat]');
