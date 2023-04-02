@@ -1,6 +1,6 @@
 /* This is generated code! */
 
-const char webserverHomepage[] = R"EOF(
+const char webserverHomepage[] PROGMEM = R"EOF(
 <!DOCTYPE html>
 <!--
  Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.

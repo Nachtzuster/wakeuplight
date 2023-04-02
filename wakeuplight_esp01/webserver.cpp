@@ -22,7 +22,7 @@ void Webserver::loop() {
 }
 
 void Webserver::handleRoot() {
-  server.send(200, "text/html", webserverHomepage);
+  server.send_P(200, "text/html", webserverHomepage);
 }
 
 void Webserver::handleCommand() {
