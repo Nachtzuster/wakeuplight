@@ -29,6 +29,7 @@
 class Dimmer : public Light {
 
 public:
+  bool initial_full_on = false;
   void setup();
   void loop();
   void off();
@@ -42,12 +43,12 @@ public:
   void debugSetRange(int range);
 
 private:
-  const int pwmPin = 0;
-  const int enablePin = 2;
+  const int pwmPin = 12;
+  const int enablePin = -1;
   const int deltaSteps = 180;
   int requiredStep;
   int requiredValue;
-  int actualValue;
+  int actualValue = -1;
 };
 
 #endif

@@ -17,18 +17,16 @@
  */
 void Dimmer::setup() {
   digitalWrite(pwmPin, 1);
-  digitalWrite(enablePin, 1);
+  if (enablePin >= 0) digitalWrite(enablePin, 1);
   pinMode(pwmPin, OUTPUT);
-  pinMode(enablePin, OUTPUT);
+  if (enablePin >= 0) pinMode(enablePin, OUTPUT);
   analogWriteFreq(dimmerFrequency);
   analogWriteRange(dimmerRange);
-  requiredStep = dimmerSteps;
-  requiredValue = dimmerValues[requiredStep];
-  analogWrite(pwmPin, requiredValue);
-  actualValue = requiredValue;
+  if (initial_full_on) full(); else off();
+  loop();
   /* Let PWM stabilize before we enable, to avoid flicker. */
-  delay(250); 
-  digitalWrite(enablePin, 0);
+  delay(250);
+  if (enablePin >= 0) digitalWrite(enablePin, 0);
 }
 
 void Dimmer::loop() {
@@ -61,11 +59,10 @@ void Dimmer::full() {
 }
 
 void Dimmer::increaseTo(float scale) {
-  int step = scale * dimmerSteps;
-  if(step > requiredStep) {
-    requiredStep = step;
-    requiredValue = dimmerValues[requiredStep];
-  }
+  if (scale > 1.0f) scale = 1.0f;
+  if (scale < 0.0f) scale = 0.0f;
+  requiredStep = scale * dimmerSteps;
+  requiredValue = dimmerValues[requiredStep];
 }
 
 int Dimmer::steps() {
