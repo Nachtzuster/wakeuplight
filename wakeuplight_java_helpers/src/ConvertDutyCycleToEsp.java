@@ -28,7 +28,7 @@ public class ConvertDutyCycleToEsp {
 			fw.write("const int dimmerFrequency = " + 100 + ";\r\n");
 			fw.write("const int dimmerRange = " + DutyCycle.PWM_RANGE + ";\r\n");
 			fw.write("const int dimmerSteps = " + DutyCycle.STEPS + ";\r\n");
-			fw.write("const int dimmerValues[] = {\r\n    ");
+			fw.write("const uint16_t dimmerValues[] PROGMEM = {\r\n    ");
 			for(int n = 0; n <= DutyCycle.STEPS; n++) {
 				fw.write(Integer.toString(DutyCycle.duty(n, inverted)));
 				if(n != DutyCycle.STEPS) {

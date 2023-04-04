@@ -38,31 +38,32 @@ void Dimmer::loop() {
 
 void Dimmer::off() {
   requiredStep = 0;
-  requiredValue = dimmerValues[requiredStep];
+  requiredValue = pgm_read_word(&dimmerValues[requiredStep]);
 }
 
 void Dimmer::decrease() {
   requiredStep -= deltaSteps;
   if(requiredStep < 0) requiredStep = 0;
-  requiredValue = dimmerValues[requiredStep];
+  requiredValue = pgm_read_word(&dimmerValues[requiredStep]);
 }
 
 void Dimmer::increase() {
   requiredStep += deltaSteps;
   if(requiredStep > dimmerSteps) requiredStep = dimmerSteps;
-  requiredValue = dimmerValues[requiredStep];
+  requiredValue = pgm_read_word(&dimmerValues[requiredStep]);
 }
 
 void Dimmer::full() {
   requiredStep = dimmerSteps;
-  requiredValue = dimmerValues[requiredStep];
+  requiredValue = pgm_read_word(&dimmerValues[requiredStep]);
 }
 
 void Dimmer::increaseTo(float scale) {
   if (scale > 1.0f) scale = 1.0f;
   if (scale < 0.0f) scale = 0.0f;
   requiredStep = scale * dimmerSteps;
-  requiredValue = dimmerValues[requiredStep];
+  requiredValue = pgm_read_word(&dimmerValues[requiredStep]);
+  Serial.printf_P(PSTR("# Dimmer::increaseTo requiredValue: %d\n"), requiredValue);
 }
 
 int Dimmer::steps() {

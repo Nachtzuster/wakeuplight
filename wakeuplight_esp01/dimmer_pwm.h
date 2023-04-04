@@ -3,7 +3,7 @@
 const int dimmerFrequency = 100;
 const int dimmerRange = 20000;
 const int dimmerSteps = 1800;
-const int dimmerValues[] = {
+const uint16_t dimmerValues[] PROGMEM = {
     20000, 19970, 19969, 19969, 19969, 19968, 19968, 19968, 19967, 19967,
     19967, 19967, 19966, 19966, 19966, 19965, 19965, 19965, 19964, 19964,
     19964, 19963, 19963, 19963, 19962, 19962, 19962, 19962, 19961, 19961,
