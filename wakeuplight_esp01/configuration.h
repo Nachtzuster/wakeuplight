@@ -16,6 +16,8 @@
 #include <TimeLib.h>
 #include <ArduinoJson.h>
 
+#define POST_DURATION 5
+#define DURATION_STEP 5
 #define MAX_ALARMS 8
 #define SIZE_ALARM 12
 #define NUM_DAYS 7

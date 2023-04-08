@@ -31,7 +31,7 @@ void Configuration::setup() {
 
   /* Read the alarm duration - if it's invalid, reset to 30 minutes */
   alarmDuration = EEPROM.read(addrDuration);
-  if(alarmDuration > 180 || (alarmDuration % 5) > 0) {
+  if(alarmDuration > 180 || (alarmDuration % DURATION_STEP) > 0) {
     alarmDuration = 30;
     EEPROM.write(addrDuration, alarmDuration);
     EEPROM.commit();
@@ -80,7 +80,7 @@ byte Configuration::getAlarmDuration() {
 }
 
 byte Configuration::getAlarmPostDuration() {
-  return 5;
+  return POST_DURATION;
 }
 
 byte Configuration::getAlarmToHour() {
@@ -123,13 +123,11 @@ boolean Configuration::setNextAlarm(time_t localTime) {
   int minuteToGo = (NUM_DAYS * 24 * 60) + 1;
   
   for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++) {
-    //int maxDay;
     if (!alarmList[alarmId].hidden && alarmList[alarmId].enable){
       int minMinutes;
       int dayCount = 0;
       int dayIndex;
       minMinutes = -1;
-      //maxDay = NUM_DAYS + 1;
       do {
         dayIndex = (dayofweek + dayCount)%NUM_DAYS;
         if (alarmList[alarmId].days[dayIndex] || !alarmList[alarmId].repeat) {
@@ -144,8 +142,6 @@ boolean Configuration::setNextAlarm(time_t localTime) {
       }
     }
   }
-  // first day is 1;
-  //nextDay++;
 
   if (minuteToGo > 0 && minuteToGo <= NUM_DAYS * 24 * 60) {
     // first day is 1, so add 1;
@@ -175,11 +171,11 @@ void Configuration::adjustAlarmMinute(int alarmId, int minute) {
 
 void Configuration::adjustAlarmDuration(boolean increase) {
   if(increase && alarmDuration < 175) {
-    alarmDuration += 5;
+    alarmDuration += DURATION_STEP;
     EEPROM.write(addrDuration, alarmDuration);
     eepromDirty = true;
   } else if(!increase && alarmDuration > 0) {
-    alarmDuration -= 5;
+    alarmDuration -= DURATION_STEP;
     EEPROM.write(addrDuration, alarmDuration);
     eepromDirty = true;
   }
