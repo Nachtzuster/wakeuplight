@@ -42,26 +42,33 @@ Button button(configuration, light, alarm);
 
 void configModeCallback (WiFiManager *myWiFiManager) {
   Serial.println("Entered config mode");
-  Serial.println(WiFi.softAPIP());
   clockdisplay.showStatus(WAIT_WIFI_CONF);
 }
 
-void setup() {
-  Serial.begin(115200);
+
+void initWifi() {
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModeCallback);
-  wifiManager.setConfigPortalTimeout(180);
-  configuration.setup();
-  light.setup();
-  clockdisplay.setup();
-  button.setup();
-  serialhost.setup();
+  wifiManager.setConfigPortalTimeout(300);
   if (button.isHeldDown()) {
     Serial.println("button was held down, resetting wifi settings");
     wifiManager.resetSettings();
   }
   else clockdisplay.showStatus(WAIT_WIFI_CONN);
   wifiManager.autoConnect("wakeuplight", "wakeuplight");
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  light.setup();
+  button.setup();
+  clockdisplay.setup();
+  initWifi();
+
+  // now setup the rest
+  configuration.setup();
+  serialhost.setup();
   clockdisplay.showStatus(WAIT_NTP_RESP);
   ntpclient.setup();
   webserver.setup();
