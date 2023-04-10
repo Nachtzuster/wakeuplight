@@ -3,8 +3,8 @@
 
 #include "alarm.h"
 
-Alarm::Alarm(Configuration& configuration, Light& light, LocalClock& localclock) :
-  configuration(configuration), light(light), localclock(localclock) {
+Alarm::Alarm(Configuration& configuration, Light& light, Sound& sound, LocalClock& localclock) :
+  configuration(configuration), light(light), sound(sound), localclock(localclock) {
 }
 
 void Alarm::loop() {
@@ -14,13 +14,11 @@ void Alarm::loop() {
       if(active) {
         /* The alarm is currently active. We'll increase the dimmer step to the appropriate level. */
         time_t elapsedSecs = now() - lastTriggered;
-        if(elapsedSecs > postSecs) {
-          active = false;
-          light.increaseTo(0.0f);
-        }
         if(elapsedSecs <= rampUpSecs) {
           light.increaseTo((float)elapsedSecs/(float)rampUpSecs);
         }
+        if(elapsedSecs > rampUpSecs) sound.sound();
+        if(elapsedSecs > postSecs) deactivate();
       } else {
         /* The alarm is currently not active. Check if it's time to become active. */
         if((unsigned long)(now() - lastTriggered) > 60UL) {
@@ -54,6 +52,7 @@ boolean Alarm::isActive() {
 
 void Alarm::deactivate() {
   light.increaseTo(0.0f);
+  sound.mute();
   active = false;
 }
 

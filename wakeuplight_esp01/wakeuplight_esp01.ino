@@ -29,12 +29,14 @@
 #include "clock_display.h"
 #include "dimmer.h"
 #include "button.h"
+#include "sound.h"
 
 Configuration configuration;
 Dimmer light;
+Sound sound;
 NTPClient ntpclient(configuration);
 LocalClock localclock(configuration, ntpclient);
-Alarm alarm(configuration, light, localclock);
+Alarm alarm(configuration, light, sound, localclock);
 Serialhost serialhost(configuration, alarm);
 Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
@@ -68,6 +70,7 @@ void setup() {
   initWifi();
 
   // now setup the rest
+  sound.setup();
   configuration.setup();
   serialhost.setup();
   clockdisplay.showStatus(WAIT_NTP_RESP);
@@ -86,8 +89,10 @@ void loop() {
   alarm.loop();
   serialhost.loop();
   webserver.loop();
-  clockdisplay.loop();
+  // the display updates causes a sound glitch
+  if (!sound.playing) clockdisplay.loop();
   light.loop();
+  sound.loop();
   button.loop();
   configuration.loop();
 }

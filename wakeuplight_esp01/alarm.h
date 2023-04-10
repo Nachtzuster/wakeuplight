@@ -13,11 +13,12 @@
 #include "configuration.h"
 #include "localclock.h"
 #include "light.h"
+#include "sound.h"
 
 class Alarm {
 
 public:
-  Alarm(Configuration& configuration, Light& light, LocalClock& localclock);
+  Alarm(Configuration& configuration, Light& light, Sound& sound, LocalClock& localclock);
   void loop();
   boolean isActive();
   void deactivate();
@@ -26,6 +27,7 @@ public:
 private:
   Configuration& configuration;  
   Light& light;
+  Sound& sound;
   LocalClock& localclock;
   unsigned long lastCheckMillis;
   time_t lastTriggered = 0UL;
