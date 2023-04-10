@@ -29,15 +29,15 @@ void Button::loop() {
         else {
           switch(lightState) {
             case 0: 
-              light.increaseTo(0.55f);
+              light.increaseTo(0.12f);
               lightState++;
               break;
             case 1:  
-              light.increaseTo(0.7f);
+              light.increaseTo(0.25f);
               lightState++;
               break;
             case 2:  
-              light.increaseTo(0.85f);
+              light.increaseTo(0.50f);
               lightState++;
               break;
             case 3:
