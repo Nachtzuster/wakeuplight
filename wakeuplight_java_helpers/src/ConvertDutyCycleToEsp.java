@@ -23,7 +23,7 @@ public class ConvertDutyCycleToEsp {
 		}
 	  System.out.println(DutyCycle.c);
     System.out.println(DutyCycle.b);
-		try (FileWriter fw = new FileWriter("../wakeuplight_esp01/dimmer_pwm.h")) {
+		try (FileWriter fw = new FileWriter("../src/dimmer_pwm.h")) {
 			fw.write("/* This is generated code! */\r\n\r\n");
 			fw.write("const int dimmerFrequency = " + 100 + ";\r\n");
 			fw.write("const int dimmerRange = " + DutyCycle.PWM_RANGE + ";\r\n");

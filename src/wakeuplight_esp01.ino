@@ -17,6 +17,8 @@
  * the PWM logic.
  */
 
+#include <Arduino.h>
+
 #include <ESP8266mDNS.h>
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
 
