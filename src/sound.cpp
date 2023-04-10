@@ -1,6 +1,5 @@
 #include "sound.h"
 
-#include "sample_mp3.h"
 
 void Sound::setup() {
   // First, preallocate all the memory needed for the codecs, never to be freed
@@ -16,7 +15,7 @@ void Sound::loop() {
   if (is_active) {
     if (!gen->isRunning()) {
       if (millis() > playAt) {
-        source->open(sample_mp3, sizeof(sample_mp3));
+        source->open(ALARM_MP3);
         int status = gen->begin(source, out);
         if (status != 1) {
           Serial.printf_P(PSTR("# Sound::loop start failed status: %d\n"), status);
@@ -37,7 +36,7 @@ void Sound::sound() {
   if (!is_active) {
     gen = new AudioGeneratorMP3(preallocateCodec, preallocateCodecSize);
     out = new AudioOutputI2S();
-    source = new AudioFileSourcePROGMEM();
+    source = new AudioFileSourceLittleFS();
     is_active = true;
   }
 }
