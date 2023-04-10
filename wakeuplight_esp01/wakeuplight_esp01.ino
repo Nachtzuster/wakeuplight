@@ -27,11 +27,11 @@
 #include "serialhost.h"
 #include "webserver.h"
 #include "clock_display.h"
-#include "neo_pixel.h"
+#include "dimmer.h"
 #include "button.h"
 
 Configuration configuration;
-Pixel light;
+Dimmer light;
 NTPClient ntpclient(configuration);
 LocalClock localclock(configuration, ntpclient);
 Alarm alarm(configuration, light, localclock);
