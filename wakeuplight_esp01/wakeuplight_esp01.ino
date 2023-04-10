@@ -41,6 +41,7 @@ Clockdisplay clockdisplay(localclock);
 Button button(configuration, light, alarm);
 
 void configModeCallback (WiFiManager *myWiFiManager) {
+  (void)myWiFiManager;  // silence warning
   Serial.println("Entered config mode");
   clockdisplay.showStatus(WAIT_WIFI_CONF);
 }
