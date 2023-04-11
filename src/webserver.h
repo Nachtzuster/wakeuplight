@@ -15,6 +15,7 @@
 #include "alarm.h"
 /* If this include is placed before the other #includes, compile-time errors occur. */
 #include <ESP8266WebServer.h>
+#include <LittleFS.h>
 #include <ArduinoJson.h>
 
 class Webserver {
@@ -29,7 +30,6 @@ private:
   LocalClock& localclock;
   Alarm& alarm;
   ESP8266WebServer server;
-  void handleRoot();
   void handleCommand();  
   void serializeStatus(JsonDocument& status);
 

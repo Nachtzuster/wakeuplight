@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+ Author: Frans van Buul <vanbuul.frans@gmail.com>, December 2015.
+ This code is in the public domain, please see file LICENSE.txt.
+-->
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content=width=device-width,initial-scale=1>
+<meta name=mobile-web-app-capable content=yes>
+<meta name=apple-mobile-web-app-capable content=yes>
+<title>Wake-up Light</title>
+<link id="iconLink" rel="shortcut icon" sizes=192x192 href=/wakeuplight.png  />
+<style>
+#main {	margin: auto; text-align: center; font-family: Tahoma, Geneva, sans-serif; }
+dialog{text-align: center}
+@media only screen and (min-width: 700px) {	#main {	width: 400px; } }
+.time { margin-bottom: 0px; }
+.date { font-size: 80%; margin-top: 0px; margin-bottom: 20px; }
+button.main { width: 18%; margin: 2%; padding-top: 12px;	padding-bottom: 12px; }
+label { display:inline-block }
+ul {list-style-type:none ; padding:0px}
+</style>
+</head>
+<body>
+	<div id=main>
+		<h3><img id="logoImage" height=40 width=40 src=/wakeuplight.png />Wake-up Light</h3>
+		<hr>
+		<h1 id="stage1header" class="stage1 time">Contacting...</h1>
+		<h1 id=time class="stage2 time" style="display: none;">&nbsp;</h1>
+		<h1 class="stage1 date">&nbsp;</h1>
+		<h1 id=date class="stage2 date" style="display: none;">&nbsp;</h1>
+
+		<ul id="alarms">
+		</ul>
+
+		<h3 class="stage1">&nbsp;</h3>
+		<h3 class="stage2" style="display: none;">
+			<span id=from>&nbsp;</span>
+			&ndash;
+			<span id=to>&nbsp;</span>
+		</h3>
+		<button disabled class="main" id=btn_alarm_add>+</button>
+		<div id=alarmstatebuttons>
+			<button disabled class="main" id=btn_alarm_faster>Faster</button>
+			<button disabled class="main" id=btn_alarm_slower>Slower</button>
+		</div>
+
+	</div>
+	<dialog id="confirm_delete" >
+		<h3>Delete alarm?</h3>
+	    <button id="delete_ok">Ok</button>
+	    <button id="delete_cancel">Cancel</button>
+	</dialog>
+	<dialog id="alarm_active" >
+		<h3>Wake up!</h3>
+	    <button id="btn_alarm_dismis">Ok</button>
+	</dialog>
+	<script src=https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js></script>
+	<script src=/wakeuplight.js ></script>
+</body>
+</html>

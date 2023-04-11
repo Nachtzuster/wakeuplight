@@ -3,8 +3,19 @@
 
 #include "webserver.h"
 
-/* This file contains the HTML code of the homepage. It is generated from a Java project. */
-#include "webserver_homepage.h"
+
+void listDir(const char *dirname) {
+  Serial.printf_P(PSTR("Listing directory: %s\n"), dirname);
+
+  Dir root = LittleFS.openDir(dirname);
+
+  while (root.next()) {
+    File file = root.openFile("r");
+    Serial.printf_P(PSTR("  FILE: %s  SIZE: %d\n"), root.fileName().c_str(), file.size());
+    file.close();
+ }
+}
+
 
 Webserver::Webserver(Configuration& configuration, LocalClock& localclock, Alarm& alarm) : 
   configuration(configuration), localclock(localclock), alarm(alarm), server(80) {
@@ -12,17 +23,17 @@ Webserver::Webserver(Configuration& configuration, LocalClock& localclock, Alarm
 
 void Webserver::setup() {
   Serial.println(F("# Webserver::setup: starting"));
-  server.on("/", std::bind(&Webserver::handleRoot, this));
+  LittleFS.begin();
+  listDir("/");
+  server.serveStatic("/", LittleFS, "/index.html", "max-age=67890");
+  server.serveStatic("/wakeuplight.png", LittleFS, "/wakeuplight.png", "max-age=67890");
+  server.serveStatic("/wakeuplight.js", LittleFS, "/wakeuplight.js", "max-age=67890");
   server.on("/L", std::bind(&Webserver::handleCommand, this));
   server.begin();
 }
 
 void Webserver::loop() {
   server.handleClient();  
-}
-
-void Webserver::handleRoot() {
-  server.send_P(200, "text/html", webserverHomepage);
 }
 
 void Webserver::handleCommand() {
