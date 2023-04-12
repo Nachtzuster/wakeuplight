@@ -222,27 +222,56 @@ void Configuration::reduceAlarmList(int alarmId){
   eepromDirty = true;
 }
 
-void Configuration::serializeAlarmList(JsonDocument& status){
-  JsonArray alarms = status.createNestedArray("alarms");
+void Configuration::getAlarmOrder(int arr[], int n)
+{
+  // bubblesort alarms
+  int i, j, tmp;
+  for (i = 0; i < n - 1; i++) {
 
-  for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++){
-    if (!alarmList[alarmId].hidden){
-      JsonObject alarm = alarms.createNestedObject();
-      alarm["id"] = alarmId;
-      alarm["hour"] = alarmList[alarmId].hour;
-      alarm["minute"] = alarmList[alarmId].minute;
-      alarm["repeat"] = alarmList[alarmId].repeat;
-      alarm["enable"] = alarmList[alarmId].enable;
-      alarm["mon"] = alarmList[alarmId].days[1];
-      alarm["tue"] = alarmList[alarmId].days[2];
-      alarm["wed"] = alarmList[alarmId].days[3];
-      alarm["thu"] = alarmList[alarmId].days[4];
-      alarm["fri"] = alarmList[alarmId].days[5];
-      alarm["sat"] = alarmList[alarmId].days[6];
-      alarm["sun"] = alarmList[alarmId].days[0];
+    for (j = 0; j < n - i - 1; j++) {
+      if ((alarmList[arr[j]].hour > alarmList[arr[j + 1]].hour)
+      || (alarmList[arr[j]].hour == alarmList[arr[j + 1]].hour && (alarmList[arr[j]].minute > alarmList[arr[j + 1]].minute))) {
+        tmp = arr[j + 1];
+        arr[j + 1] = arr[j];
+        arr[j] = tmp;
+      }
     }
   }
 }
+
+void Configuration::serializeAlarmList(JsonDocument& status){
+  JsonArray alarms = status.createNestedArray("alarms");
+
+  int alarmCount = 0;
+  int alarmOrder[MAX_ALARMS];
+  for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++){
+    if (!alarmList[alarmId].hidden){
+      alarmOrder[alarmCount] = alarmId;
+      alarmCount++;
+    }
+  }
+
+  getAlarmOrder(alarmOrder, alarmCount);
+
+  for (int alarmPosition = 0; alarmPosition<alarmCount; alarmPosition++){
+    int alarmId = alarmOrder[alarmPosition];
+    JsonObject alarm = alarms.createNestedObject();
+    alarm["id"] = alarmId;
+    alarm["hour"] = alarmList[alarmId].hour;
+    alarm["minute"] = alarmList[alarmId].minute;
+    alarm["repeat"] = alarmList[alarmId].repeat;
+    alarm["enable"] = alarmList[alarmId].enable;
+    alarm["mon"] = alarmList[alarmId].days[1];
+    alarm["tue"] = alarmList[alarmId].days[2];
+    alarm["wed"] = alarmList[alarmId].days[3];
+    alarm["thu"] = alarmList[alarmId].days[4];
+    alarm["fri"] = alarmList[alarmId].days[5];
+    alarm["sat"] = alarmList[alarmId].days[6];
+    alarm["sun"] = alarmList[alarmId].days[0];
+  }
+}
+
+
 
 void Configuration::calculateAlarmTo() {
   alarmToMinute = alarmDuration;

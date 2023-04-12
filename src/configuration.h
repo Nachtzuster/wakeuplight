@@ -90,6 +90,7 @@ private:
   void flushEeprom();
   void initAlarmDef(int alarmId);
   boolean readBoolean(int address, boolean& corrupt);
+  void getAlarmOrder(int arr[], int n);
   boolean alarmEnabled;
   byte nextAlarmId;
   byte alarmDay;

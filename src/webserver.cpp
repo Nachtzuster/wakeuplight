@@ -60,6 +60,7 @@ void Webserver::handleCommand() {
         int minute = value.substring(colon_index + 1).toInt();
         configuration.adjustAlarmHour(alarmId, hour);
         configuration.adjustAlarmMinute(alarmId, minute);
+        return_alarms = "1";
       }
     }
     else if (control == "repeat") configuration.setAlarmRepeat(alarmId, value == "true");
