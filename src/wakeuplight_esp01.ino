@@ -33,6 +33,8 @@
 #include "button.h"
 #include "sound.h"
 
+#define HOSTNAME "wakeuplight"
+
 Configuration configuration;
 Dimmer light;
 Sound sound;
@@ -56,11 +58,14 @@ void initWifi() {
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.setConfigPortalTimeout(300);
   if (button.isHeldDown()) {
-    Serial.println(F("button was held down, resetting wifi settings"));
-    wifiManager.resetSettings();
+    Serial.println(F("Button was held down, starting ConfigPortal"));
+    wifiManager.startConfigPortal(HOSTNAME, HOSTNAME);
   }
   else clockdisplay.showStatus(WAIT_WIFI_CONN);
-  wifiManager.autoConnect("wakeuplight", "wakeuplight");
+  if (!wifiManager.autoConnect(HOSTNAME, HOSTNAME)) {
+    Serial.println(F("Failed to connect, restarting"));
+    ESP.restart();
+  }
 }
 
 void setup() {
@@ -78,7 +83,7 @@ void setup() {
   clockdisplay.showStatus(WAIT_NTP_RESP);
   ntpclient.setup();
   webserver.setup();
-  MDNS.begin("wakeuplight");
+  MDNS.begin(HOSTNAME);
   MDNS.addService("http", "tcp", 80);
 }
 
