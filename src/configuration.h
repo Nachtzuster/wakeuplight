@@ -75,7 +75,6 @@ public:
   void expandAlarmList();
   void reduceAlarmList(int alarmId);
   void serializeAlarmList(JsonDocument& status);
-  void flushEeprom();
   void loop();
 
   unsigned int getNtpLocalPort();
@@ -88,6 +87,7 @@ private:
   AlarmDef alarmList[MAX_ALARMS];
   void calculateAlarmTo();
   int calculateMinuteToNext(time_t localTime, int nextDay, int nextHour, int nextMinute);
+  void flushEeprom();
   void initAlarmDef(int alarmId);
   boolean readBoolean(int address, boolean& corrupt);
   boolean alarmEnabled;
