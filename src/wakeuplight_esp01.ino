@@ -19,6 +19,7 @@
 
 #include <Arduino.h>
 
+#include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
 
@@ -52,11 +53,14 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   clockdisplay.showStatus(WAIT_WIFI_CONF);
 }
 
-
 void initWifi() {
+  softap_config ap_config;
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.setConfigPortalTimeout(300);
+  wifi_softap_get_config(& ap_config);
+  ap_config.authmode = AUTH_WPA2_PSK;
+  wifi_softap_set_config(& ap_config);
   if (button.isHeldDown()) {
     Serial.println(F("Button was held down, starting ConfigPortal"));
     wifiManager.startConfigPortal(HOSTNAME, HOSTNAME);
