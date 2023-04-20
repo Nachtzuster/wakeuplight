@@ -45,3 +45,7 @@ void Clockdisplay::showStatus(int status) {
       break;
   }
 }
+
+void Clockdisplay::setSegments(uint8_t segments[]) {
+  displ.setSegments(segments);
+}

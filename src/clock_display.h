@@ -31,6 +31,7 @@ private:
 public:
   explicit Clockdisplay(LocalClock& localclock);
   void showStatus(int status);
+  void setSegments(uint8_t segments[]);
   void setup();
   void loop();
 };

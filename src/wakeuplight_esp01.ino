@@ -33,8 +33,13 @@
 #include "dimmer.h"
 #include "button.h"
 #include "sound.h"
+#include "wms.h"
 
 #define HOSTNAME "wakeuplight"
+#define AP_PWD ""
+// we can only show 4 characters on the clock display
+#define RND_LEN 4
+uint8 rnd_bits[RND_LEN];
 
 Configuration configuration;
 Dimmer light;
@@ -46,16 +51,33 @@ Serialhost serialhost(configuration, alarm);
 Webserver webserver(configuration, localclock, alarm);
 Clockdisplay clockdisplay(localclock);
 Button button(configuration, light, alarm);
+String ap_pwd = AP_PWD;
 
 void configModeCallback (WiFiManager *myWiFiManager) {
   (void)myWiFiManager;  // silence warning
   Serial.println(F("Entered config mode"));
   clockdisplay.showStatus(WAIT_WIFI_CONF);
+  if (String(AP_PWD) == "") {
+    uint8 rnd_segments[RND_LEN];
+    for (int i=0;  i<RND_LEN; i++) {
+      rnd_segments[i] = encodeBitsToSegment(rnd_bits[i]);
+    }
+    clockdisplay.setSegments(rnd_segments);
+    Serial.printf("ap_pwd '%s'\n", ap_pwd.c_str());
+  }
 }
 
 void initWifi() {
   softap_config ap_config;
   WiFiManager wifiManager;
+
+  if (ap_pwd == "") {
+    char rnd_chars[RND_LEN + 1];
+    getRandomBits(rnd_bits, RND_LEN);
+    encodeBitsToCStr(rnd_bits, rnd_chars, RND_LEN);
+    ap_pwd = String(rnd_chars) + HOSTNAME;
+  }
+
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.setConfigPortalTimeout(300);
   wifi_softap_get_config(& ap_config);
@@ -63,10 +85,10 @@ void initWifi() {
   wifi_softap_set_config(& ap_config);
   if (button.isHeldDown()) {
     Serial.println(F("Button was held down, starting ConfigPortal"));
-    wifiManager.startConfigPortal(HOSTNAME, HOSTNAME);
+    wifiManager.startConfigPortal(HOSTNAME, ap_pwd.c_str());
   }
   else clockdisplay.showStatus(WAIT_WIFI_CONN);
-  if (!wifiManager.autoConnect(HOSTNAME, HOSTNAME)) {
+  if (!wifiManager.autoConnect(HOSTNAME, ap_pwd.c_str())) {
     Serial.println(F("Failed to connect, restarting"));
     ESP.restart();
   }
