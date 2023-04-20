@@ -41,6 +41,11 @@ void Webserver::handleCommand() {
   String inp = server.arg("inp");
   String value = server.arg("val");
   if(inp != NULL && inp != "" && value != NULL && value != "") {
+    // changing alarms requires authentication
+    if (!server.authenticate(configuration.getUiUser().c_str(), configuration.getUiPwd().c_str())) {
+      return server.requestAuthentication();
+    }
+
     int alarmId;
     String control;
     int dash_index = inp.indexOf("-");

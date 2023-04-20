@@ -41,6 +41,7 @@
 #define RND_LEN 4
 uint8 rnd_bits[RND_LEN];
 
+WiFiManager * wm = NULL;
 Configuration configuration;
 Dimmer light;
 Sound sound;
@@ -67,9 +68,24 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   }
 }
 
+String getParam(String name){
+  //read parameter from server, for customhmtl input
+  String value;
+  if(wm->server->hasArg(name)) {
+    value = wm->server->arg(name);
+  }
+  return value;
+}
+
+void saveParamCallback() {
+  String pwd = getParam("ui-pwd-id");
+  configuration.setUiPwd(pwd);
+}
+
 void initWifi() {
   softap_config ap_config;
   WiFiManager wifiManager;
+  wm = & wifiManager;
 
   if (ap_pwd == "") {
     char rnd_chars[RND_LEN + 1];
@@ -83,6 +99,14 @@ void initWifi() {
   wifi_softap_get_config(& ap_config);
   ap_config.authmode = AUTH_WPA2_PSK;
   wifi_softap_set_config(& ap_config);
+
+  // custom html(password)
+  static const char* custom_password PROGMEM = R"EOF(<br/> <label for="pwd">UI Password:</label> <input type="password" name="ui-pwd-id" minlength="8" maxlength="15" >)EOF";
+  WiFiManagerParameter custom_field = WiFiManagerParameter(custom_password);
+
+  wifiManager.addParameter(&custom_field);
+  wifiManager.setSaveParamsCallback(saveParamCallback);
+
   if (button.isHeldDown()) {
     Serial.println(F("Button was held down, starting ConfigPortal"));
     wifiManager.startConfigPortal(HOSTNAME, ap_pwd.c_str());
@@ -92,6 +116,7 @@ void initWifi() {
     Serial.println(F("Failed to connect, restarting"));
     ESP.restart();
   }
+  wm = NULL;
   IPAddress ip = WiFi.localIP();
   clockdisplay.showNumberDec(ip.isV4()? ip[2] * 1000 + ip[3] : ip[14] * 1000 + ip[15]);
   delay(500);

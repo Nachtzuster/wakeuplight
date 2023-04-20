@@ -22,6 +22,7 @@
 #define SIZE_ALARM 12
 #define NUM_DAYS 7
 #define RESPONSE_BUFFER_SIZE 1450
+#define UI_PWD_LEN 15
 
 enum Month { JANUARY=1, FEBRUARY=2, MARCH=3, APRIL=4, MAY=5, JUNE=6, JULY=7,
   AUGUST=8, SEPTEMBER=9, OCTOBER=10, NOVEMBER=11, DECEMBER=12 };
@@ -42,6 +43,8 @@ class Configuration {
 private:
   const char* ntpserver = "0.pool.ntp.org";
   unsigned int ntpLocalPort = 2309U;
+
+  const char* ui_user = "wakeuplight";
 
   /* Time zone settings: currently configured for Central European Time (CET, UTC+1), with
    * a change to Central European Summer Time (CEST, UTC+2) between the last Sunday of March
@@ -77,6 +80,9 @@ public:
   void serializeAlarmList(JsonDocument& status);
   void loop();
 
+  void setUiPwd(String pwd);
+  String getUiPwd();
+  String getUiUser();
   unsigned int getNtpLocalPort();
   const char* getNtpServerName();
   int getStandardTimeOffset();
@@ -91,6 +97,7 @@ private:
   void initAlarmDef(int alarmId);
   boolean readBoolean(int address, boolean& corrupt);
   void getAlarmOrder(int arr[], int n);
+  String ui_pwd;
   boolean alarmEnabled;
   byte nextAlarmId;
   byte alarmDay;
@@ -113,7 +120,8 @@ private:
   static const int addrEnableSat = 10;
   static const int addrEnableSun = 11;
   static const int addrDuration = SIZE_ALARM * MAX_ALARMS;
-  static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 1;
+  static const int addrUiPwd = addrDuration + 1;
+  static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 1 + (UI_PWD_LEN + 1);
 
   boolean eepromDirty = false;
 };

@@ -203,6 +203,45 @@ void Configuration::setAlarmEnableDay(int alarmId, int day_number, boolean enabl
   eepromDirty = true;
 }
 
+void Configuration::setUiPwd(String pwd) {
+  if (pwd != "" && pwd.length() <= UI_PWD_LEN) {
+    EEPROM.begin(eepromSize);
+    for (unsigned int i=0; i<=pwd.length(); i++) {
+      // Serial.printf("setUiPwd i:%d, c:%u\n", i, pwd.c_str()[i]);
+      EEPROM.write(addrUiPwd + i, pwd.c_str()[i]);
+    }
+    EEPROM.commit();
+    EEPROM.end();
+  }
+}
+
+String Configuration::getUiUser() {
+  return ui_user;
+}
+
+String Configuration::getUiPwd() {
+  if (ui_pwd != NULL)
+    return ui_pwd;
+
+  char pwd[UI_PWD_LEN+1];
+  int i = 0;
+  while (i<=UI_PWD_LEN) {
+    pwd[i] = EEPROM.read(addrUiPwd + i);
+    if (pwd[i] == 0) break;
+    i++;
+  }
+
+  if (pwd[i] == 0 && i >= 7) {
+    ui_pwd = String(pwd);
+    return ui_pwd;
+  }
+  else {
+    Serial.printf_P(PSTR("# getUiPwd check corrupt i:%d, c:%u\n"), i, pwd[i]);
+    Serial.println(F("# !!! Password corrupted or not set"));
+    return String("");
+  }
+}
+
 void Configuration::expandAlarmList(){
   int alarmId = 0;
   while (alarmId < MAX_ALARMS && !alarmList[alarmId].hidden){
