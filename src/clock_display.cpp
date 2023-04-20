@@ -49,3 +49,8 @@ void Clockdisplay::showStatus(int status) {
 void Clockdisplay::setSegments(uint8_t segments[]) {
   displ.setSegments(segments);
 }
+
+void Clockdisplay::showNumberDec(int num) {
+  // mod 10000 to show only the 4 lowest digits
+  displ.showNumberDec(num % 10000, true);
+}

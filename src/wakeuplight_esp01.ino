@@ -92,6 +92,9 @@ void initWifi() {
     Serial.println(F("Failed to connect, restarting"));
     ESP.restart();
   }
+  IPAddress ip = WiFi.localIP();
+  clockdisplay.showNumberDec(ip.isV4()? ip[2] * 1000 + ip[3] : ip[14] * 1000 + ip[15]);
+  delay(500);
 }
 
 void setup() {
@@ -106,7 +109,6 @@ void setup() {
   sound.setup();
   configuration.setup();
   serialhost.setup();
-  clockdisplay.showStatus(WAIT_NTP_RESP);
   ntpclient.setup();
   webserver.setup();
   MDNS.begin(HOSTNAME);
