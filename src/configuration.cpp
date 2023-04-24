@@ -27,11 +27,11 @@ void Configuration::setup() {
     }
   }
 
-  /* Read the alarm duration - if it's invalid, reset to 30 minutes */
-  alarmDuration = EEPROM.read(addrDuration);
-  if(alarmDuration > 180 || (alarmDuration % DURATION_STEP) > 0) {
-    alarmDuration = 30;
-    EEPROM.write(addrDuration, alarmDuration);
+  /* Read the sunrise duration - if it's invalid, reset to 30 minutes */
+  sunriseDuration = EEPROM.read(addrSunriseDuration);
+  if(sunriseDuration > 180 || (sunriseDuration % DURATION_STEP) > 0) {
+    sunriseDuration = 30;
+    EEPROM.write(addrSunriseDuration, sunriseDuration);
     EEPROM.commit();
   }
    
@@ -73,8 +73,8 @@ byte Configuration::getAlarmMinute() {
   return alarmMinute;
 }
 
-byte Configuration::getAlarmDuration() {
-  return alarmDuration;
+byte Configuration::getSunriseDuration() {
+  return sunriseDuration;
 }
 
 byte Configuration::getAlarmPostDuration() {
@@ -167,14 +167,14 @@ void Configuration::adjustAlarmMinute(int alarmId, int minute) {
   eepromDirty = true;
 }
 
-void Configuration::adjustAlarmDuration(boolean increase) {
-  if(increase && alarmDuration < 175) {
-    alarmDuration += DURATION_STEP;
-    EEPROM.write(addrDuration, alarmDuration);
+void Configuration::adjustSunriseDuration(boolean increase) {
+  if(increase && sunriseDuration < 175) {
+    sunriseDuration += DURATION_STEP;
+    EEPROM.write(addrSunriseDuration, sunriseDuration);
     eepromDirty = true;
-  } else if(!increase && alarmDuration > 0) {
-    alarmDuration -= DURATION_STEP;
-    EEPROM.write(addrDuration, alarmDuration);
+  } else if(!increase && sunriseDuration > 0) {
+    sunriseDuration -= DURATION_STEP;
+    EEPROM.write(addrSunriseDuration, sunriseDuration);
     eepromDirty = true;
   }
 }
@@ -310,10 +310,8 @@ void Configuration::serializeAlarmList(JsonDocument& status){
   }
 }
 
-
-
 void Configuration::calculateAlarmTo() {
-  alarmToMinute = alarmDuration;
+  alarmToMinute = sunriseDuration;
   alarmToHour = (alarmToMinute / 60) % 24;
   alarmToMinute = alarmToMinute % 60;  
 }

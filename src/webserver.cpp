@@ -85,8 +85,8 @@ void Webserver::handleCommand() {
       configuration.expandAlarmList();
       return_alarms = "1";
     }
-    else if(control == "btn_alarm_slower") configuration.adjustAlarmDuration(true);
-    else if(control == "btn_alarm_faster") configuration.adjustAlarmDuration(false);
+    else if(control == "btn_sunrise_slower") configuration.adjustSunriseDuration(true);
+    else if(control == "btn_sunrise_faster") configuration.adjustSunriseDuration(false);
     else if(control == "btn_alarm_dismis") alarm.deactivate();
 
     time_t localTime = localclock.getLocalTime();

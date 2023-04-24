@@ -61,7 +61,7 @@ public:
   byte getAlarmDay();
   byte getAlarmHour();
   byte getAlarmMinute();
-  byte getAlarmDuration();
+  byte getSunriseDuration();
   byte getAlarmPostDuration();
   byte getAlarmToHour();
   byte getAlarmToMinute();
@@ -70,7 +70,7 @@ public:
   void alarmIsTriggered(time_t localTime);
   void adjustAlarmHour(int alarmId, int hour);
   void adjustAlarmMinute(int alarmId, int minute);
-  void adjustAlarmDuration(boolean increase);
+  void adjustSunriseDuration(boolean increase);
   void setAlarmHidden(int alarmId, boolean hide);
   void setAlarmEnabled(int alarmId, boolean enable);
   void setAlarmRepeat(int alarmId, boolean repeat);
@@ -103,7 +103,7 @@ private:
   byte alarmDay;
   byte alarmHour;
   byte alarmMinute;
-  byte alarmDuration;
+  byte sunriseDuration;
   byte alarmToHour;
   byte alarmToMinute;
 
@@ -119,8 +119,8 @@ private:
   static const int addrEnableFri = 9;
   static const int addrEnableSat = 10;
   static const int addrEnableSun = 11;
-  static const int addrDuration = SIZE_ALARM * MAX_ALARMS;
-  static const int addrUiPwd = addrDuration + 1;
+  static const int addrSunriseDuration = SIZE_ALARM * MAX_ALARMS;
+  static const int addrUiPwd = addrSunriseDuration + 1;
   static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 1 + (UI_PWD_LEN + 1);
 
   boolean eepromDirty = false;

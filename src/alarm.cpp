@@ -23,7 +23,7 @@ void Alarm::loop() {
         /* The alarm is currently not active. Check if it's time to become active. */
         if((unsigned long)(now() - lastTriggered) > 60UL) {
           if(configuration.isAlarmEnabled()) {
-            rampUpSecs = configuration.getAlarmDuration()*60UL;
+            rampUpSecs = configuration.getSunriseDuration()*60UL;
             postSecs = rampUpSecs + configuration.getAlarmPostDuration()*60UL;
             /* Need to start light ramp up rampUpSecs before alarm time */
             time_t localTime = localclock.getLocalTime() + rampUpSecs;
