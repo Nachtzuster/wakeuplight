@@ -87,6 +87,8 @@ void Webserver::handleCommand() {
     }
     else if(control == "btn_sunrise_slower") configuration.adjustSunriseDuration(true);
     else if(control == "btn_sunrise_faster") configuration.adjustSunriseDuration(false);
+    else if(control == "btn_alarm_longer") configuration.adjustAlarmDuration(true);
+    else if(control == "btn_alarm_shorter") configuration.adjustAlarmDuration(false);
     else if(control == "btn_alarm_dismis") alarm.deactivate();
 
     time_t localTime = localclock.getLocalTime();
@@ -135,5 +137,6 @@ void Webserver::serializeStatus(JsonDocument& status) {
     status["next_hour"] = configuration.getAlarmHour();
     status["next_minute"] = configuration.getAlarmMinute();
     status["sunrise_duration"] = configuration.getSunriseDuration();
+    status["alarm_duration"] = configuration.getAlarmDuration();
   }
 }

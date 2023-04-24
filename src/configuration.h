@@ -16,7 +16,6 @@
 #include <TimeLib.h>
 #include <ArduinoJson.h>
 
-#define POST_DURATION 5
 #define DURATION_STEP 5
 #define MAX_ALARMS 8
 #define SIZE_ALARM 12
@@ -62,13 +61,14 @@ public:
   byte getAlarmHour();
   byte getAlarmMinute();
   byte getSunriseDuration();
-  byte getAlarmPostDuration();
+  byte getAlarmDuration();
   boolean isAlarmEnabled();
   boolean setNextAlarm(time_t localTime);
   void alarmIsTriggered(time_t localTime);
   void adjustAlarmHour(int alarmId, int hour);
   void adjustAlarmMinute(int alarmId, int minute);
   void adjustSunriseDuration(boolean increase);
+  void adjustAlarmDuration(boolean increase);
   void setAlarmHidden(int alarmId, boolean hide);
   void setAlarmEnabled(int alarmId, boolean enable);
   void setAlarmRepeat(int alarmId, boolean repeat);
@@ -101,6 +101,7 @@ private:
   byte alarmHour;
   byte alarmMinute;
   byte sunriseDuration;
+  byte alarmDuration;
 
   static const int addrHour = 0;
   static const int addrMinute = 1;
@@ -115,8 +116,13 @@ private:
   static const int addrEnableSat = 10;
   static const int addrEnableSun = 11;
   static const int addrSunriseDuration = SIZE_ALARM * MAX_ALARMS;
-  static const int addrUiPwd = addrSunriseDuration + 1;
-  static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 1 + (UI_PWD_LEN + 1);
+  static const int addrAlarmDuration = (SIZE_ALARM * MAX_ALARMS) + 1;
+  static const int addrRes1 = (SIZE_ALARM * MAX_ALARMS) + 2;
+  static const int addrRes2 = (SIZE_ALARM * MAX_ALARMS) + 3;
+  static const int addrRes3 = (SIZE_ALARM * MAX_ALARMS) + 4;
+  static const int addrRes4 = (SIZE_ALARM * MAX_ALARMS) + 5;
+  static const int addrUiPwd = (SIZE_ALARM * MAX_ALARMS) + 6;
+  static const int eepromSize = (SIZE_ALARM * MAX_ALARMS) + 6 + (UI_PWD_LEN + 1);
 
   boolean eepromDirty = false;
 };

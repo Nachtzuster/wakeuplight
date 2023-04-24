@@ -34,7 +34,15 @@ void Configuration::setup() {
     EEPROM.write(addrSunriseDuration, sunriseDuration);
     EEPROM.commit();
   }
-   
+
+  /* Read the alarm duration - if it's invalid, reset to 10 minutes */
+  alarmDuration = EEPROM.read(addrAlarmDuration);
+  if(alarmDuration > 60 || (alarmDuration % DURATION_STEP) > 0) {
+    alarmDuration = 10;
+    EEPROM.write(addrAlarmDuration, alarmDuration);
+    EEPROM.commit();
+  }
+
   alarmEnabled = false;
 }
 
@@ -77,8 +85,8 @@ byte Configuration::getSunriseDuration() {
   return sunriseDuration;
 }
 
-byte Configuration::getAlarmPostDuration() {
-  return POST_DURATION;
+byte Configuration::getAlarmDuration() {
+  return alarmDuration;
 }
 
 boolean Configuration::isAlarmEnabled() {
@@ -166,6 +174,18 @@ void Configuration::adjustSunriseDuration(boolean increase) {
   } else if(!increase && sunriseDuration > 0) {
     sunriseDuration -= DURATION_STEP;
     EEPROM.write(addrSunriseDuration, sunriseDuration);
+    eepromDirty = true;
+  }
+}
+
+void Configuration::adjustAlarmDuration(boolean increase) {
+  if(increase && alarmDuration < 55) {
+    alarmDuration += DURATION_STEP;
+    EEPROM.write(addrAlarmDuration, alarmDuration);
+    eepromDirty = true;
+  } else if(!increase && alarmDuration > 0) {
+    alarmDuration -= DURATION_STEP;
+    EEPROM.write(addrAlarmDuration, alarmDuration);
     eepromDirty = true;
   }
 }

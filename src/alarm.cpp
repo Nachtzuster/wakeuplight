@@ -24,7 +24,7 @@ void Alarm::loop() {
         if((unsigned long)(now() - lastTriggered) > 60UL) {
           if(configuration.isAlarmEnabled()) {
             rampUpSecs = configuration.getSunriseDuration()*60UL;
-            postSecs = rampUpSecs + configuration.getAlarmPostDuration()*60UL;
+            postSecs = rampUpSecs + configuration.getAlarmDuration()*60UL;
             /* Need to start light ramp up rampUpSecs before alarm time */
             time_t localTime = localclock.getLocalTime() + rampUpSecs;
             if(dayOfWeek(localTime) == configuration.getAlarmDay() && 

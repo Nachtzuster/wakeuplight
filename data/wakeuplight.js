@@ -27,6 +27,7 @@ function processStatus(json){
         $("#date").html(json.day + " " + pad(json.month) + " " + json.year);
         $("#next").html(json.next_day + " " + json.next_hour + ":" + pad(json.next_minute));
         $("#sun_dur").html(json.sunrise_duration);
+        $("#al_dur").html(json.alarm_duration);
         if(json.status == "ACTIVE") {
             var dialog = document.getElementById("alarm_active");
             if (!dialog.open){
