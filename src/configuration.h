@@ -63,8 +63,6 @@ public:
   byte getAlarmMinute();
   byte getSunriseDuration();
   byte getAlarmPostDuration();
-  byte getAlarmToHour();
-  byte getAlarmToMinute();
   boolean isAlarmEnabled();
   boolean setNextAlarm(time_t localTime);
   void alarmIsTriggered(time_t localTime);
@@ -91,7 +89,6 @@ public:
 
 private:
   AlarmDef alarmList[MAX_ALARMS];
-  void calculateAlarmTo();
   int calculateMinuteToNext(time_t localTime, int nextDay, int nextHour, int nextMinute);
   void flushEeprom();
   void initAlarmDef(int alarmId);
@@ -104,8 +101,6 @@ private:
   byte alarmHour;
   byte alarmMinute;
   byte sunriseDuration;
-  byte alarmToHour;
-  byte alarmToMinute;
 
   static const int addrHour = 0;
   static const int addrMinute = 1;

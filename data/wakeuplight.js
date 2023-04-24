@@ -25,8 +25,8 @@ function processStatus(json){
         }
         $("#time").html(json.hour + ":" + pad(json.minute));
         $("#date").html(json.day + " " + pad(json.month) + " " + json.year);
-        $("#from").html(json.next_day + " " + json.next_hour + ":" + pad(json.next_minute));
-        $("#to").html(json.to_hour + ":" + pad(json.to_minute));
+        $("#next").html(json.next_day + " " + json.next_hour + ":" + pad(json.next_minute));
+        $("#sun_dur").html(json.sunrise_duration);
         if(json.status == "ACTIVE") {
             var dialog = document.getElementById("alarm_active");
             if (!dialog.open){

@@ -134,7 +134,6 @@ void Webserver::serializeStatus(JsonDocument& status) {
     else status["next_day"] = String(dayStr(configuration.getAlarmDay()));
     status["next_hour"] = configuration.getAlarmHour();
     status["next_minute"] = configuration.getAlarmMinute();
-    status["to_hour"] = configuration.getAlarmToHour();
-    status["to_minute"] = configuration.getAlarmToMinute();
+    status["sunrise_duration"] = configuration.getSunriseDuration();
   }
 }

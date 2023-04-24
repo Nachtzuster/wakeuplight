@@ -81,14 +81,6 @@ byte Configuration::getAlarmPostDuration() {
   return POST_DURATION;
 }
 
-byte Configuration::getAlarmToHour() {
-  return alarmToHour;
-}
-
-byte Configuration::getAlarmToMinute() {
-  return alarmToMinute;
-}
-
 boolean Configuration::isAlarmEnabled() {
   return alarmEnabled;
 }
@@ -147,7 +139,6 @@ boolean Configuration::setNextAlarm(time_t localTime) {
     alarmHour = alarmList[nextId].hour;
     alarmMinute = alarmList[nextId].minute;
     nextAlarmId = nextId;
-    calculateAlarmTo();
     ret = true;
   }
   alarmEnabled = ret;
@@ -308,12 +299,6 @@ void Configuration::serializeAlarmList(JsonDocument& status){
     alarm["sat"] = alarmList[alarmId].days[6];
     alarm["sun"] = alarmList[alarmId].days[0];
   }
-}
-
-void Configuration::calculateAlarmTo() {
-  alarmToMinute = sunriseDuration;
-  alarmToHour = (alarmToMinute / 60) % 24;
-  alarmToMinute = alarmToMinute % 60;  
 }
 
 void Configuration::initAlarmDef(int alarmId){
