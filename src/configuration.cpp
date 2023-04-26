@@ -29,7 +29,7 @@ void Configuration::setup() {
 
   /* Read the sunrise duration - if it's invalid, reset to 30 minutes */
   sunriseDuration = EEPROM.read(addrSunriseDuration);
-  if(sunriseDuration > 180 || (sunriseDuration % DURATION_STEP) > 0) {
+  if (sunriseDuration > 180 || sunriseDuration < 1) {
     sunriseDuration = 30;
     EEPROM.write(addrSunriseDuration, sunriseDuration);
     EEPROM.commit();
@@ -37,7 +37,7 @@ void Configuration::setup() {
 
   /* Read the alarm duration - if it's invalid, reset to 10 minutes */
   alarmDuration = EEPROM.read(addrAlarmDuration);
-  if(alarmDuration > 60 || (alarmDuration % DURATION_STEP) > 0) {
+  if (alarmDuration > 60 || alarmDuration < 1) {
     alarmDuration = 10;
     EEPROM.write(addrAlarmDuration, alarmDuration);
     EEPROM.commit();
@@ -167,27 +167,25 @@ void Configuration::adjustAlarmMinute(int alarmId, int minute) {
 }
 
 void Configuration::adjustSunriseDuration(boolean increase) {
-  if(increase && sunriseDuration < 175) {
-    sunriseDuration += DURATION_STEP;
-    EEPROM.write(addrSunriseDuration, sunriseDuration);
-    eepromDirty = true;
-  } else if(!increase && sunriseDuration > 0) {
-    sunriseDuration -= DURATION_STEP;
-    EEPROM.write(addrSunriseDuration, sunriseDuration);
-    eepromDirty = true;
-  }
+  sunriseDuration = adjustDuration(increase, sunriseDuration, addrSunriseDuration, 1, 180);
 }
 
 void Configuration::adjustAlarmDuration(boolean increase) {
-  if(increase && alarmDuration < 55) {
-    alarmDuration += DURATION_STEP;
-    EEPROM.write(addrAlarmDuration, alarmDuration);
-    eepromDirty = true;
-  } else if(!increase && alarmDuration > 0) {
-    alarmDuration -= DURATION_STEP;
-    EEPROM.write(addrAlarmDuration, alarmDuration);
+  alarmDuration = adjustDuration(increase, alarmDuration, addrAlarmDuration, 1, 60);
+}
+
+int Configuration::adjustDuration(boolean increase, int curr_val, int address, int lower_limit, int upper_limit) {
+  int next_val = curr_val;
+  if (increase && next_val < upper_limit) {
+    (next_val < DURATION_STEP) ? next_val++ : next_val += DURATION_STEP;
+  } else if(!increase && next_val > lower_limit) {
+    (next_val <= DURATION_STEP) ? next_val-- : next_val -= DURATION_STEP;
+  }
+  if (curr_val != next_val) {
+    EEPROM.write(address, next_val);
     eepromDirty = true;
   }
+  return next_val;
 }
 
 void Configuration::setAlarmHidden(int alarmId, boolean hide) {

@@ -88,6 +88,7 @@ public:
   TimeChange* getTimeChanges();
 
 private:
+  int adjustDuration(boolean increase, int curr_val, int address, int lower_limit, int upper_limit);
   AlarmDef alarmList[MAX_ALARMS];
   int calculateMinuteToNext(time_t localTime, int nextDay, int nextHour, int nextMinute);
   void flushEeprom();
