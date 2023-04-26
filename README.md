@@ -8,15 +8,17 @@ I liked that it had a web gui to set alarms, but I wanted a real alarm clock, no
 ## Functions
 Starting from the light and web ui, these were added:
 
-- The obligatory 7-segment LED display.
+- Four digit 7-segment LED display
 - Adaptive intensity for the display
-- I also wanted the web interface to have more of the feel of the standard Android alarm clock with multiple alarms.
+- I also wanted the web interface to have more of the feel of the standard Android alarm clock with multiple alarms
+- Password required when changing alarms
 - Easy Wifi set-up: no hard coded credentials
 - Also added was a multi-function button:
     - turn off the alarm when activated
-    - cycle through a number of light intensities
-    - clear Wifi settings when held down at power-up
-- NeoPixel as a light source
+    - cycle through 3 light intensities
+    - startup as an AP and WifiManager when held down at power-up
+- NeoPixel or PWM as a light source, PWM can be inverted or non-inverted
+- Plays mp3 file repeatedly when the alarm is active
 
 ## UI
 <img src="docs/ui.png" width="33%" height="33%">
@@ -32,5 +34,6 @@ I used an Olimex MOD-WIFI-ESP8266, but any ESP-12 variant would probably do.
 - _Time_ by Michael Margolis
 - _TM1637_ by Avishay Orpaz <avishorp@gmail.com>
 - _WiFiManager_ by tzapu
+- _ESP8266Audio_ by Earle F. Philhower, III
 
 [Wake-up Light]: https://www.instructables.com/id/Wake-up-Ceiling-Light/
