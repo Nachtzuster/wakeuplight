@@ -32,7 +32,7 @@ void Configuration::setup() {
   if (sunriseDuration > 180 || sunriseDuration < 1) {
     sunriseDuration = 30;
     EEPROM.write(addrSunriseDuration, sunriseDuration);
-    EEPROM.commit();
+    eepromDirty = true;
   }
 
   /* Read the alarm duration - if it's invalid, reset to 10 minutes */
@@ -40,9 +40,9 @@ void Configuration::setup() {
   if (alarmDuration > 60 || alarmDuration < 1) {
     alarmDuration = 10;
     EEPROM.write(addrAlarmDuration, alarmDuration);
-    EEPROM.commit();
+    eepromDirty = true;
   }
-
+  flushEeprom();
   alarmEnabled = false;
 }
 
