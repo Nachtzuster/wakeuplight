@@ -7,9 +7,9 @@
 
 public class DutyCycle {
 	
-	public static final int STEPS = 1800;
-	public static final int PWM_RANGE = 20000;
-	public static final int PWM_MARGIN = 30;
+	public static final int STEPS = 1023;
+	public static final int PWM_RANGE = 2048;
+	public static final int PWM_MARGIN = 1;
 	public static double a = 100d;
 	
 	static double c = (double)(PWM_RANGE - PWM_MARGIN) + a;
