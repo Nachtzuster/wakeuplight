@@ -2,3 +2,4 @@
 *.bin
 .pio
 .vscode
+__pycache__
