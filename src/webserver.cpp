@@ -61,11 +61,22 @@ void Webserver::handleCommand() {
     if (control == "usr_time"){
       int colon_index = value.indexOf(":");
       if (colon_index > 0 && colon_index < (int)value.length()){
+        int alarmOrderBefore[MAX_ALARMS];
+        int alarmCount = configuration.getAlarmOrder(alarmOrderBefore);
+
         int hour = value.substring(0, colon_index).toInt();
         int minute = value.substring(colon_index + 1).toInt();
         configuration.adjustAlarmHour(alarmId, hour);
         configuration.adjustAlarmMinute(alarmId, minute);
-        return_alarms = "1";
+
+        int alarmOrderAfter[MAX_ALARMS];
+        configuration.getAlarmOrder(alarmOrderAfter);
+        for (int alarmPosition = 0; alarmPosition<alarmCount; alarmPosition++){
+          if (alarmOrderBefore[alarmPosition] != alarmOrderAfter[alarmPosition]) {
+            return_alarms = "1";
+            break;
+          }
+        }
       }
     }
     else if (control == "repeat") configuration.setAlarmRepeat(alarmId, value == "true");

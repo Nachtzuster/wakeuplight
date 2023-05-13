@@ -76,6 +76,7 @@ public:
   void expandAlarmList();
   void reduceAlarmList(int alarmId);
   void serializeAlarmList(JsonDocument& status);
+  int getAlarmOrder(int arr[]);
   void loop();
 
   void setUiPwd(String pwd);
@@ -94,7 +95,6 @@ private:
   void flushEeprom();
   void initAlarmDef(int alarmId);
   boolean readBoolean(int address, boolean& corrupt);
-  void getAlarmOrder(int arr[], int n);
   String ui_pwd;
   boolean alarmEnabled;
   byte nextAlarmId;

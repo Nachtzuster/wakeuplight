@@ -7,9 +7,11 @@ $(function() {
 });
 
 function processData(json) {
+    var currentFocus_id = document.activeElement.id;
     if(json.hasOwnProperty('status')) processStatus(json);
     if(json.hasOwnProperty('alarms')) processAlarms(json);
     updateOnCheckbox();
+    if (currentFocus_id && json.hasOwnProperty('alarms')) document.getElementById(currentFocus_id).focus();
 }
 
 function processStatus(json){
@@ -92,8 +94,6 @@ function buildalarms(alarms) {
     var str = '';
     for (index in alarms) {
         var alarm = alarms[index];
-        var class_name = "detail"+alarm.id;
-        var enable = "";
         str +=
         '<li class=' + alarm.id + '>' +
             '<input type="time" id="usr_time-' + alarm.id + '" name="usr_time" step="60" class="detail" value="' + pad(alarm.hour) + ":" + pad(alarm.minute) + '" >' +

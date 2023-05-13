@@ -270,8 +270,15 @@ void Configuration::reduceAlarmList(int alarmId){
   eepromDirty = true;
 }
 
-void Configuration::getAlarmOrder(int arr[], int n)
+int Configuration::getAlarmOrder(int arr[])
 {
+  int n = 0;
+  for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++){
+    if (!alarmList[alarmId].hidden){
+      arr[n] = alarmId;
+      n++;
+    }
+  }
   // bubblesort alarms
   int i, j, tmp;
   for (i = 0; i < n - 1; i++) {
@@ -285,21 +292,14 @@ void Configuration::getAlarmOrder(int arr[], int n)
       }
     }
   }
+  return n;
 }
 
 void Configuration::serializeAlarmList(JsonDocument& status){
   JsonArray alarms = status.createNestedArray("alarms");
 
-  int alarmCount = 0;
   int alarmOrder[MAX_ALARMS];
-  for (int alarmId = 0; alarmId<MAX_ALARMS; alarmId++){
-    if (!alarmList[alarmId].hidden){
-      alarmOrder[alarmCount] = alarmId;
-      alarmCount++;
-    }
-  }
-
-  getAlarmOrder(alarmOrder, alarmCount);
+  int alarmCount = getAlarmOrder(alarmOrder);
 
   for (int alarmPosition = 0; alarmPosition<alarmCount; alarmPosition++){
     int alarmId = alarmOrder[alarmPosition];
