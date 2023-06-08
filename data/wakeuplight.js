@@ -3,7 +3,7 @@ $(function() {
     $.post( "L?alarms=1", "", processData );
     setInterval(function() { $.post( "L", "", processData ); }, 5000);
     $("button.main").click(function(event) { $.post( "L?inp=" + event.target.id + "&val=0", "", processData ); } );
-
+    $("button.settings").click(showSettings);
 });
 
 function processData(json) {
@@ -111,4 +111,17 @@ function buildalarms(alarms) {
         '</div><hr></li>'
     }
     return str;
+}
+
+function showSettings() {
+    if ($("#settings_sep").is(":visible")) {
+        document.getElementById("btn_settings").innerHTML = "&#9650";
+        $("#settings_sep").hide();
+        $("#durationbuttons").hide();
+    }
+    else {
+        document.getElementById("btn_settings").innerHTML = "&#9660";
+        $("#settings_sep").show();
+        $("#durationbuttons").show();
+    }
 }
