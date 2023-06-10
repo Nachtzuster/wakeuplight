@@ -2,7 +2,7 @@ var contactedBefore = false;
 $(function() {
     $.post( "L?alarms=1", "", processData );
     setInterval(function() { $.post( "L", "", processData ); }, 5000);
-    $("button.main").click(function(event) { $.post( "L?inp=" + event.target.id + "&val=0", "", processData ); } );
+    $("button.main").click(function(event) { $.post( "L?inp=" + event.currentTarget.id + "&val=0", "", processData ); } );
     $("button.settings").click(showSettings);
 });
 
