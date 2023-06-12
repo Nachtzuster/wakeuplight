@@ -14,6 +14,7 @@ os.chdir(os.path.join(base_dir, 'data'))
 
 # full_resp = b'{"status":"ENABLED","hour":15,"minute":25,"day":12,"month":"May","year":2023,"next_day":"Tomorrow","next_hour":8,"next_minute":0,"sunrise_duration":20,"alarm_duration":10,"alarms":[{"id":1,"hour":6,"minute":50,"repeat":true,"enable":true,"mon":false,"tue":false,"wed":false,"thu":false,"fri":true,"sat":false,"sun":false},{"id":2,"hour":7,"minute":30,"repeat":true,"enable":true,"mon":true,"tue":true,"wed":true,"thu":true,"fri":false,"sat":false,"sun":false},{"id":0,"hour":8,"minute":0,"repeat":true,"enable":true,"mon":false,"tue":false,"wed":false,"thu":false,"fri":false,"sat":true,"sun":true}]}'
 
+
 class Alarm:
     def __init__(self, id) -> None:
         self.id = id
@@ -32,20 +33,22 @@ class Alarm:
     def __lt__(self, other):
         return (self.hour < other.hour) or (self.hour == other.hour and self.minute < other.minute)
 
+
 def as_dict(obj):
     return obj.__dict__
+
 
 alarms = [Alarm(0), Alarm(1), Alarm(2)]
 alarms[0].hour += 1
 alarms[1].hour += 2
 alarms[2].hour += 3
-status = {"status":"ENABLED","hour":15,"minute":25,"day":12,"month":"May","year":2023,"next_day":"Tomorrow","next_hour":8,"next_minute":0,"sunrise_duration":20,"alarm_duration":10}
+status = {"status": "ENABLED", "hour": 15, "minute": 25, "day": 12, "month": "May", "year": 2023, "next_day": "Tomorrow", "next_hour": 8, "next_minute": 0, "sunrise_duration": 20, "alarm_duration": 10}
 
 
 class S(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
-        postback= urllib.parse.urlparse(self.path)
+        postback = urllib.parse.urlparse(self.path)
         query = urllib.parse.parse_qs(postback.query)
         if postback.path != '/L':
             print(f'?? {self.path=}')
@@ -89,8 +92,8 @@ class S(http.server.SimpleHTTPRequestHandler):
                 return False
 
             order_before = [alarm.id for alarm in sorted(alarms)]
-            alarms[idx].hour=int(match.groups()[0])
-            alarms[idx].minute=int(match.groups()[1])
+            alarms[idx].hour = int(match.groups()[0])
+            alarms[idx].minute = int(match.groups()[1])
             order_after = [alarm.id for alarm in sorted(alarms)]
 
             return (order_before != order_after)
@@ -99,7 +102,8 @@ class S(http.server.SimpleHTTPRequestHandler):
             if len(alarms) < 8:
                 alarms.append(Alarm(len(alarms)))
                 return True
-            else: return False
+            else:
+                return False
 
         if inp.startswith('btn_delete-'):
             idx = int(inp[-1])
@@ -122,4 +126,3 @@ class S(http.server.SimpleHTTPRequestHandler):
 with http.server.HTTPServer(("", PORT), S) as httpd:
     print("serving at port", PORT)
     httpd.serve_forever()
-
