@@ -36,6 +36,9 @@ def as_dict(obj):
     return obj.__dict__
 
 alarms = [Alarm(0), Alarm(1), Alarm(2)]
+alarms[0].hour += 1
+alarms[1].hour += 2
+alarms[2].hour += 3
 status = {"status":"ENABLED","hour":15,"minute":25,"day":12,"month":"May","year":2023,"next_day":"Tomorrow","next_hour":8,"next_minute":0,"sunrise_duration":20,"alarm_duration":10}
 
 
@@ -72,8 +75,8 @@ class S(http.server.SimpleHTTPRequestHandler):
         inp = query['inp'][0]
         val = query['val'][0]
 
+        global alarms
         if inp.startswith('usr_time'):
-            global alarms
             regex = 'usr_time-([0-9])'
             match = re.match(regex, inp)
             if match is None:
@@ -92,6 +95,16 @@ class S(http.server.SimpleHTTPRequestHandler):
 
             return (order_before != order_after)
 
+        if inp.startswith('btn_alarm_add'):
+            if len(alarms) < 8:
+                alarms.append(Alarm(len(alarms)))
+                return True
+            else: return False
+
+        if inp.startswith('btn_delete-'):
+            idx = int(inp[-1])
+            alarms = [alarm for alarm in alarms if alarm.id != idx]
+            return True
 
         global status
         if inp.startswith('btn_sunrise_slower'):
