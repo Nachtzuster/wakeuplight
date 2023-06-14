@@ -34,7 +34,7 @@ function processStatus(json){
             var dialog = document.getElementById("alarm_active");
             if (!dialog.open){
                 dialog.showModal();
-                document.getElementById("btn_alarm_dismis").onclick = function() {
+                document.getElementById("btn_alarm_dismis").onclick = function(event) {
                     dialog.close();
                     $.post( "L?inp=" + event.target.id + "&val=0", "", processData );
                 };
