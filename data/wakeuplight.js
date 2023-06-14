@@ -49,6 +49,12 @@ function processStatus(json){
 }
 
 function processAlarms(json){
+    var alarm_ids_old = [];
+    var alarm_ids_new = [];
+    for ( let elem of $("ul li") ) {
+        alarm_ids_old.push(elem.className);
+    }
+
     $("#alarms").html(buildalarms(json.alarms));
     $("input[type=time]").change(function(event) {
         if (event.target.validity.valid)
@@ -69,6 +75,23 @@ function processAlarms(json){
         };
 
     } );
+
+    var alarm_ids_new = [];
+    for ( let elem of $("ul li") ) {
+        alarm_ids_new.push(elem.className);
+    }
+    if (alarm_ids_old.length > 0 && alarm_ids_old.length < alarm_ids_new.length) {
+        var alarm_id_new;
+        for ( let elem of alarm_ids_new ) {
+            if ( !alarm_ids_old.includes(elem) ) {
+                alarm_id_new = elem;
+                break
+            }
+        }
+        var alarm_new = $("li." + alarm_id_new + ":first");
+        alarm_new.hide();
+        alarm_new.fadeIn("slow");
+    }
 }
 
 function pad(n){
