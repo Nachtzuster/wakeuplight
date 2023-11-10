@@ -2,7 +2,7 @@
 
 import os
 import http.server
-import simplejson
+import json
 import urllib.parse
 import re
 
@@ -63,7 +63,7 @@ class S(http.server.SimpleHTTPRequestHandler):
         full_dict = dict(**status)
         if ret_alarms:
             full_dict['alarms'] = sorted(alarms)
-        resp = simplejson.dumps(full_dict, default=as_dict)
+        resp = json.dumps(full_dict, default=as_dict)
         self.wfile.write(resp.encode())
         return
 
