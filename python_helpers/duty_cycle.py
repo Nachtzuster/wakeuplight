@@ -38,6 +38,7 @@ header_file_path = os.path.join(os.path.split(current_dir)[0], 'src', 'dimmer_pw
 
 with open(header_file_path, "+tw") as header_file:
     header_file.write("/* This is generated code! */\r\n\r\n")
+    header_file.write(f"/* {'inverted' if args.inverted else 'non-inverted'} */\r\n")
     header_file.write("const int dimmerFrequency = 100;\r\n")
     header_file.write(f"const int dimmerRange = {DutyCycle.pwm_range};\r\n")
     header_file.write(f"const int dimmerSteps = {DutyCycle.steps};\r\n")
