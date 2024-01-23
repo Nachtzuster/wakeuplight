@@ -8,7 +8,7 @@ I liked that it had a web gui to set alarms, but I wanted a real alarm clock, no
 ## Functions
 Starting from the light and web ui, these were added:
 
-- Four digit 7-segment LED display
+- Four digit 7-segment LED display (TM1637)
 - Adaptive intensity for the display
 - I also wanted the web interface to have more of the feel of the standard Android alarm clock with multiple alarms
 - Password required when changing alarms
@@ -18,7 +18,7 @@ Starting from the light and web ui, these were added:
     - cycle through 3 light intensities
     - startup as an AP and WifiManager when held down at power-up
 - NeoPixel or PWM as a light source, PWM can be inverted or non-inverted
-- Plays mp3 file repeatedly when the alarm is active
+- Plays mp3 file repeatedly when the alarm is active (Adafruit or Sparkfun MAX98357)
 
 ## UI
 <img src="docs/ui.png" width="33%" height="33%">
