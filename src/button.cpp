@@ -18,9 +18,23 @@ void Button::loop() {
     if (touchValue == HIGH)
     {
       touched = 1;
+      touchCnt++;
+      if (touchCnt == 100) {
+        if (alarm.isActive()) {
+          alarm.deactivate();
+        }
+        light.increaseTo(1.0f);
+        lightState = 3;
+        touched = 0;
+      }
+      if (touchCnt > 100) {
+        touchCnt = 100;
+        touched = 0;
+      }
     }
     else
     {
+      touchCnt = 0;
       if (touched) {
         touched = 0;
         if (alarm.isActive()) {

@@ -13,6 +13,7 @@ private:
   const uint8_t buttonPin = 16;
   int sampleTime = 0;
   int touched = 0;
+  int touchCnt = 0;
   int lightState = 0;
   Configuration& configuration;  
   Light& light;
