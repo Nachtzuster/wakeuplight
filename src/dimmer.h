@@ -43,7 +43,7 @@ public:
   void debugSetRange(int range);
 
 private:
-  const int pwmPin = 12;
+  const int pwmPin = 5;
   const int enablePin = -1;
   const int deltaSteps = 180;
   int requiredStep;
