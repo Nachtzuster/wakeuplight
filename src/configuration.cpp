@@ -296,14 +296,14 @@ int Configuration::getAlarmOrder(int arr[])
 }
 
 void Configuration::serializeAlarmList(JsonDocument& status){
-  JsonArray alarms = status.createNestedArray("alarms");
+  JsonArray alarms = status["alarms"].to<JsonArray>();
 
   int alarmOrder[MAX_ALARMS];
   int alarmCount = getAlarmOrder(alarmOrder);
 
   for (int alarmPosition = 0; alarmPosition<alarmCount; alarmPosition++){
     int alarmId = alarmOrder[alarmPosition];
-    JsonObject alarm = alarms.createNestedObject();
+    JsonObject alarm = alarms.add<JsonObject>();
     alarm["id"] = alarmId;
     alarm["hour"] = alarmList[alarmId].hour;
     alarm["minute"] = alarmList[alarmId].minute;
