@@ -22,6 +22,8 @@ Starting from the light and web ui, these were added:
 
 ## UI
 <img src="docs/ui.png" width="33%" height="33%">
+<img src="docs/front.jpeg" width="33%" height="33%">
+<img src="docs/top.jpeg" width="33%" height="33%">
 
 ## Hardware
 With all the added functionality, the number of exposed IO pins on an ESP-01 is not enough.
