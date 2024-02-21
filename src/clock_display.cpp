@@ -25,10 +25,13 @@ void Clockdisplay::loop() {
 }
 
 void Clockdisplay::setBrightness() {
-  unsigned int light = 1024 - analogRead(A0);
+  unsigned int brightness = 0;
+  unsigned int raw = analogRead(A0);
   yield();
-  /* max brightness is 7, so make sure not to go over */
-  unsigned int brightness = round(sqrt(light)/4.57);
+  if (raw < 1024) brightness = 1;
+  if (raw < 800) brightness = 2;
+  if (raw < 300) brightness = 7;
+  // Serial.printf_P(PSTR("# Clockdisplay::setBrightness raw: %d brightness: %d\n"), raw, brightness);
   displ.setBrightness(brightness);
 }
 
