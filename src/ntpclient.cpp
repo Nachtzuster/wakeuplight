@@ -30,6 +30,15 @@ boolean NTPClient::isTimeSet() {
 
 void NTPClient::sendNTPpacket() {
   Serial.println(F("# NTPClient::sendNTPpacket: Sending packet"));
+  /* Make sure there are no stale packets in the receive queue*/
+  int packetSize;
+  do {
+    packetSize = udp.parsePacket();
+    if (packetSize != 0) {
+      udp.read(packetBuffer, ntpPacketSize);
+    }
+  } while (packetSize);
+
   /* Get the IP address. */
   IPAddress timeServerIP;
   WiFi.hostByName(configuration.getNtpServerName(), timeServerIP);   
