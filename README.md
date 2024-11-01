@@ -11,6 +11,7 @@ Starting from the light and web ui, these were added:
 - Four digit 7-segment LED display (TM1637)
 - Adaptive intensity for the display
 - I also wanted the web interface to have more of the feel of the standard Android alarm clock with multiple alarms
+- Dark or light mode (select at compile time)
 - Password required when changing alarms
 - Easy Wifi set-up: no hard coded credentials
 - Also added was a multi-function button:
