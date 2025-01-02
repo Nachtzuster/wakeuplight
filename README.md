@@ -22,6 +22,8 @@ Starting from the light and web ui, these were added:
 - Plays mp3 file repeatedly when the alarm is active (Adafruit or Sparkfun MAX98357)
 
 ## UI
+<img src="docs/ui_dark.png">
+<img src="docs/ui_light.png">
 <img src="docs/ui.png" width="33%" height="33%">
 <img src="docs/front.jpeg" width="33%" height="33%">
 <img src="docs/top.jpeg" width="33%" height="33%">
